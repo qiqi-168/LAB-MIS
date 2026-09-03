@@ -7,7 +7,7 @@
 <link rel="icon" href="data:,">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:#f0f3f8;color:#2c3e50;font-size:14px;}
+body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:#f0f3f8;color:#2c3e50;font-size:14px;padding-bottom:56px;}
 button{cursor:pointer;font-family:inherit;}
 input,select,textarea{font-family:inherit;font-size:13px;padding:7px 9px;border:1px solid #ccd5e0;border-radius:5px;outline:none;background:#fff;}
 input:focus,select:focus{border-color:#3478c6;}
@@ -85,6 +85,9 @@ tr:hover td{background:#f7fafd;}
 .notice-red{background:#fdf0ef;border:1px solid #f5c6c0;color:#c0392b;font-weight:bold;padding:10px 13px;border-radius:6px;margin-top:10px;font-size:12.8px;line-height:1.6;}
 .sds-box{background:#f6f9fd;border:1px solid #d8e4f0;border-radius:8px;padding:12px 14px;font-size:12.5px;line-height:1.7;color:#41546d;max-height:180px;overflow:auto;margin-top:10px;}
 .chk-line{margin-top:10px;font-size:13px;display:flex;gap:7px;align-items:center;}
+.date-chip,.slot-chip{border:1.5px solid #d5deea;border-radius:7px;padding:7px 12px;font-size:12.5px;text-align:center;cursor:pointer;user-select:none;background:#fbfcfe;line-height:1.5;}
+.date-chip.on,.slot-chip.on{border-color:#2a78b8;background:#e8f2fb;color:#1d5a8f;font-weight:bold;}
+.slot-chip.full{border-color:#eecfcf;background:#fdf3f3;color:#c0392b;cursor:not-allowed;opacity:.8;}
 .m-foot{margin-top:20px;display:flex;justify-content:flex-end;gap:10px;}
 /* 签名块 */
 .sig{display:inline-block;padding:6px 12px;border-radius:6px;font-size:12.5px;margin:3px 6px 3px 0;vertical-align:middle;}
@@ -95,7 +98,7 @@ tr:hover td{background:#f7fafd;}
 .form-section{border:1px solid #e3e9f1;border-radius:8px;padding:14px 16px;margin-bottom:14px;}
 .form-section h4{font-size:13.5px;color:#12395f;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eef2f7;}
 /* 底部日志 */
-.logbar{position:fixed;left:0;right:0;bottom:0;height:42px;background:#10263d;color:#9db6cd;display:flex;align-items:center;padding:0 20px;gap:14px;font-size:12px;z-index:60;}
+.logbar{position:fixed;left:0;right:0;bottom:0;height:42px;background:#10263d;color:#9db6cd;display:flex;align-items:center;padding:0 20px;gap:14px;font-size:12px;z-index:10;pointer-events:auto;}
 .logbar b{color:#cfe3f5;font-weight:normal;}
 .logbar button{background:none;border:none;color:#7fc0bb;font-size:12px;text-decoration:underline;}
 .lg-tag{background:#e74c3c;color:#fff;padding:1px 8px;border-radius:9px;font-size:10.5px;}
@@ -112,6 +115,92 @@ tr:hover td{background:#f7fafd;}
 .pill.rejected{background:#fdecea;color:#c0392b;}
 .pill.overdue{background:#e74c3c;color:#fff;}
 .divider{height:1px;background:#e3e9f1;margin:14px 0;}
+/* ===== 移动端响应式 ===== */
+@media(max-width:768px){
+  body{font-size:13px;padding-bottom:50px;}
+  /* 顶栏：两行布局 */
+  .topbar{height:auto;flex-wrap:wrap;padding:6px 10px;gap:4px 6px;}
+  .topbar .brand{font-size:14px;order:1;white-space:nowrap;}
+  .user-area{order:2;margin-left:auto;gap:6px;font-size:12px;flex-wrap:nowrap;white-space:nowrap;}
+  .user-area span{font-size:12px;white-space:nowrap;}
+  .btn-out{padding:3px 7px;font-size:10.5px;white-space:nowrap;}
+  .todo-badge{order:3;font-size:11.5px;padding:4px 7px;white-space:nowrap;}
+  .todo-badge i{font-size:9px;min-width:14px;height:14px;line-height:14px;}
+  .nav-tabs{order:4;flex:0 0 100%!important;width:100%;margin-left:0;margin-top:2px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+  .nav-tabs::-webkit-scrollbar{display:none;}
+  .nav-tabs button{padding:5px 9px;font-size:12px;white-space:nowrap;flex-shrink:0;}
+  /* 主体 */
+  .page{max-width:100%;margin:8px auto 60px;padding:0 8px;}
+  .card{padding:10px 12px;border-radius:8px;margin-bottom:10px;}
+  .card h2{font-size:15px;}
+  .card .sub{font-size:11px;margin-bottom:8px;}
+  /* 工具栏 */
+  .toolbar{gap:5px;margin-bottom:8px;}
+  .toolbar input,.toolbar select{max-width:100%!important;width:auto!important;min-width:0!important;}
+  .btn{padding:6px 11px;font-size:12px;}
+  .btn.big{padding:9px 16px;font-size:13px;}
+  .btn.mini{padding:3px 7px;font-size:11px;}
+  /* KPI */
+  .kpi-row{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+  .kpi{padding:10px;border-radius:8px;}
+  .kpi .k-val{font-size:20px;}
+  .kpi .k-label{font-size:11px;}
+  /* 表格滚动 */
+  .card table,.form-section table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+  th,td{padding:6px 7px;font-size:12px;}
+  th{font-size:11.5px;}
+  /* 弹窗全屏 */
+  .overlay{padding:0;}
+  .modal{width:100%!important;max-width:100%!important;max-height:100vh;border-radius:0;padding:12px 10px;}
+  .modal h3{font-size:14px;margin-bottom:8px;}
+  .m-foot{justify-content:stretch;gap:6px;}
+  .m-foot .btn{flex:1;padding:8px 4px;font-size:12px;}
+  /* 表单 */
+  .frm .row2{grid-template-columns:1fr;gap:0;}
+  .frm label{font-size:12px;margin:8px 0 3px;}
+  .frm input,.frm select,.frm textarea{font-size:13px;padding:8px;width:100%;}
+  .frm input[style*="width"],.frm select[style*="width"]{width:100%!important;max-width:100%!important;}
+  /* 签名块 */
+  .sig-row{padding:6px 8px;font-size:12px;}
+  .sig-row b{width:auto;display:block;margin-bottom:2px;}
+  .sig{font-size:11.5px;padding:4px 7px;}
+  .form-section{padding:8px 10px;margin-bottom:8px;}
+  .form-section h4{font-size:12.5px;}
+  /* 底栏 */
+  .logbar{height:34px;padding:0 8px;gap:6px;font-size:11px;}
+  .logbar>span{white-space:nowrap;flex-shrink:0;}
+  .logbar b{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:block;font-size:11px;}
+  .logbar button{font-size:11px;white-space:nowrap;flex-shrink:0;}
+  /* 低库存横幅 */
+  .lowstock-banner{padding:8px 10px;font-size:12px;border-radius:6px;}
+  /* toast */
+  .toast{top:50px;right:8px;left:8px;padding:9px 12px;font-size:12px;border-radius:6px;text-align:center;}
+  /* 日期/时段选择 chip */
+  .date-chip,.slot-chip{padding:5px 7px;font-size:11.5px;}
+  /* 勾选行：文字不再竖排；checkbox 在左，文字内部换行 */
+  .chk-line{flex-wrap:nowrap;align-items:center;gap:8px;}
+  .chk-line input[type="checkbox"]{flex:0 0 auto;width:16px;height:16px;margin:0;}
+  .chk-line label{flex:1 1 auto;min-width:0;font-weight:normal!important;font-size:12.5px!important;line-height:1.5;white-space:normal;}
+  /* SVG 图表自适应 */
+  .form-section svg{max-width:100%;width:100%;height:auto;}
+  /* 设备利用率条形图行 */
+  .form-section div[style*="display:flex;align-items:center"]>div:first-child{width:90px!important;min-width:90px;}
+  .form-section div[style*="display:flex;align-items:center"]>div:last-child{width:70px!important;}
+  /* 登录 */
+  .login-wrap{padding:16px;}
+  .login-box{padding:24px 18px;width:100%;border-radius:8px;}
+  .login-box h1{font-size:20px;}
+  .lg-hint{font-size:10.5px;padding:8px 10px;line-height:1.7;}
+}
+@media(max-width:480px){
+  .kpi-row{grid-template-columns:1fr;}
+  .kpi .k-val{font-size:18px;}
+  .topbar .brand{font-size:13px;}
+  .nav-tabs button{padding:4px 7px;font-size:11px;}
+  .card{padding:8px 10px;}
+  .user-area .btn-out:first-of-type{display:none;}
+  .todo-badge{font-size:11px;padding:4px 6px;}
+}
 </style>
 </head>
 <body>
@@ -128,6 +217,53 @@ function nowStr(){var d=new Date();return p2(d.getMonth()+1)+'-'+p2(d.getDate())
 function dtStr(){return today()+' '+p2(new Date().getHours())+':'+p2(new Date().getMinutes());}
 function addDays(iso,n){var d=new Date(iso+'T00:00:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());}
 function diffDay(iso){var a=new Date(iso+'T00:00:00'),b=new Date();b.setHours(0,0,0,0);return Math.floor((b-a)/86400000);}
+/* 生成近90天历史仪器预约数据（确定性伪随机，供使用分析图表展示） */
+function genRes(){
+  var rnd=(function(){var s=20260827;return function(){s=(s*9301+49297)%233280;return s/233280;};})();
+  var devs=[{id:'YQ-001',name:'气相色谱仪GC-2014C',w:0.55,cap:1},
+            {id:'YQ-002',name:'高速冷冻离心机',w:0.5,cap:2},
+            {id:'YQ-003',name:'PCR扩增仪',w:0.22,cap:1},
+            {id:'YQ-004',name:'紫外可见分光光度计',w:0.6,cap:1},
+            {id:'YQ-005',name:'酶标仪',w:0.06,cap:1}];
+  var us=[['u6','王芳',0.4],['u4','张雨欣',0.3],['u5','李明',0.2],['u3','王建国',0.1]];
+  var slots=['上午 8:00-12:00','下午 13:00-17:00','晚上 18:00-22:00'];
+  var projs=['纳米纤维支架制备','蛋白质二级结构FTIR分析','OP-I经皮递送载体研究','pH梯度洗脱层析','土壤重金属消解','水质COD测定','细胞培养与传代','PCR扩增检测'];
+  var out=[],n=1;
+  for(var d=90;d>=1;d--){
+    var date=addDays(today(),-d);
+    var cnt=rnd()<0.72?1+Math.floor(rnd()*3):0;
+    for(var k=0;k<cnt;k++){
+      var r=rnd(),acc=0,dev=devs[0];
+      for(var i=0;i<devs.length;i++){acc+=devs[i].w;if(r<=acc){dev=devs[i];break;}}
+      if(dev.id==='YQ-003'&&d<12)continue;
+      var ru=rnd(),u=us[0];acc=0;
+      for(i=0;i<us.length;i++){acc+=us[i][2];if(ru<=acc){u=us[i];break;}}
+      var sl=[],sn=1+Math.floor(rnd()*2);
+      var pool=slots.slice();
+      for(i=0;i<sn&&pool.length;i++){var si=Math.floor(rnd()*pool.length);sl.push(pool.splice(si,1)[0]);}
+      var st=rnd()<0.94?'done':'canceled';
+      out.push({id:'RQ'+(1000+n),devId:dev.id,devName:dev.name,userId:u[0],userName:u[1],
+        project:projs[Math.floor(rnd()*projs.length)],date:date,slots:sl,hours:sl.length*4,
+        samples:(1+Math.floor(rnd()*20))+'个样品',note:'',status:st,
+        applyTime:date+' 09:00',signer:u[1],signTime:date+' 09:05',
+        approveSigner:'刘敏',approveTime:date+' 10:00',adminOpinion:'同意',adminReason:'',
+        checkinTime:st==='done'?date+' 08:30':'',checkoutTime:st==='done'?date+' '+(16+Math.floor(rnd()*4))+':30':'',
+        actualHours:st==='done'?sl.length*4:0});
+      n++;
+    }
+  }
+  var fut=[[1,'YQ-001','气相色谱仪GC-2014C','u4','张雨欣','pending','蛋白质二级结构FTIR分析'],
+           [2,'YQ-002','高速冷冻离心机','u5','李明','approved','细胞培养与传代'],
+           [1,'YQ-004','紫外可见分光光度计','u6','王芳','pending','水质COD测定']];
+  fut.forEach(function(f,i){
+    out.push({id:'RQF'+(100+i),devId:f[1],devName:f[2],userId:f[3],userName:f[4],project:f[6],
+      date:addDays(today(),f[0]),slots:['下午 13:00-17:00'],hours:4,samples:'6个样品',note:'',status:f[5],
+      applyTime:today()+' 09:00',signer:f[4],signTime:today()+' 09:05',
+      approveSigner:f[5]==='approved'?'刘敏':'',approveTime:f[5]==='approved'?today()+' 10:00':'',adminOpinion:f[5]==='approved'?'同意':'',adminReason:'',
+      checkinTime:'',checkoutTime:'',actualHours:0});
+  });
+  return out;
+}
 
 function seed(){
   return {
@@ -143,6 +279,8 @@ function seed(){
       {id:'YQ-001',name:'气相色谱仪GC-2014C',cat:'仪器',spec:'Agilent 7820A',maker:'安捷伦/批号2024-GC12',price:185000,purchaseDate:'2023-05-10',expire:'2026-05-09',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋201室',risk:'blue'},
       {id:'YQ-002',name:'高速冷冻离心机',cat:'仪器',spec:'H1850R 16000rpm',maker:'湘仪/H1850R',price:68000,purchaseDate:'2022-09-01',expire:'2025-09-01',status:'正常',stock:2,unit:'台',minStock:0,loc:'B栋203室',risk:'blue'},
       {id:'YQ-003',name:'PCR扩增仪',cat:'仪器',spec:'Bio-Rad T100',maker:'伯乐/T100',price:52000,purchaseDate:'2021-03-15',expire:'2026-03-14',status:'待修',stock:1,unit:'台',minStock:0,loc:'B栋205室',risk:'blue'},
+      {id:'YQ-004',name:'紫外可见分光光度计',cat:'仪器',spec:'UV-1800',maker:'岛津/UV1800',price:76000,purchaseDate:'2022-06-18',expire:'2026-06-17',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋202室',risk:'blue'},
+      {id:'YQ-005',name:'酶标仪',cat:'仪器',spec:'Multiskan GO',maker:'赛默飞/GO',price:89000,purchaseDate:'2023-11-02',expire:'2026-11-01',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋206室',risk:'blue'},
       {id:'SJ-101',name:'浓硫酸',cat:'试剂',spec:'500mL/瓶 分析纯',maker:'国药/批号20250801',price:25,purchaseDate:'2025-08-01',expire:'2027-08-01',status:'正常',stock:350,unit:'mL',minStock:500,loc:'试剂柜A-2层',risk:'yellow'},
       {id:'SJ-102',name:'Tris-HCl缓冲液',cat:'试剂',spec:'pH8.0 250mL',maker:'索莱宝/批号T2025',price:38,purchaseDate:'2025-06-20',expire:'2026-11-30',status:'正常',stock:1200,unit:'mL',minStock:400,loc:'冷藏柜C-1',risk:'blue'},
       {id:'SJ-103',name:'盐酸',cat:'试剂',spec:'500mL/瓶 36%~38% 分析纯',maker:'国药/批号20250715',price:18,purchaseDate:'2025-07-15',expire:'',status:'正常',stock:900,unit:'mL',minStock:300,loc:'试剂柜A-3层',risk:'yellow'},
@@ -191,12 +329,54 @@ function seed(){
     logs:[
       {t:'08-27 10:15',user:'刘敏',text:'审批通过借用单 BR2026081001（李明 高速冷冻离心机）',type:''},
       {t:'08-26 09:43',user:'张雨欣',text:'在双人收发表 HO2026082601 签署领用人签字',type:'双人管控'}
-    ]
+    ],
+    violations:[]
   };
 }
 var db=null;
 try{db=JSON.parse(localStorage.getItem(DBKEY));}catch(e){db=null;}
 if(!db||!db.users){db=seed();saveDB();}
+/* 迁移：预约表 + 新增演示仪器 + 旧仪器借用单移入预约表 */
+if(!db.res){db.res=genRes();saveDB();}
+if(!db.violations){db.violations=[];saveDB();}
+/* 自动检测：已批准预约但日期已过且未签到 → 违规未签到 */
+(function(){
+  var changed=false;
+  db.res.forEach(function(r){
+    if(r.status==='approved'&&r.date<today()&&!db.violations.some(function(v){return v.resId===r.id;})){
+      db.violations.unshift({id:'WG'+today().replace(/-/g,'')+Math.floor(Math.random()*900+100),
+        resId:r.id,userId:r.userId,userName:r.userName,devName:r.devName,devId:r.devId,
+        project:r.project,date:r.date,violationType:'未按时签到',
+        description:'预约开始后未在规定时段内扫码签到，系统自动标记',
+        status:'待处理',handleResult:'',handleTime:'',handleBy:''});
+      changed=true;
+      logAct('系统自动标记违规：'+r.userName+' '+r.devName+' '+r.date+'（未按时签到）','违规');
+    }
+  });
+  if(changed)saveDB();
+})();
+if(!db.items.some(function(i){return i.id==='YQ-004';})){
+  db.items.push({id:'YQ-004',name:'紫外可见分光光度计',cat:'仪器',spec:'UV-1800',maker:'岛津/UV1800',price:76000,purchaseDate:'2022-06-18',expire:'2026-06-17',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋202室',risk:'blue'});
+  db.items.push({id:'YQ-005',name:'酶标仪',cat:'仪器',spec:'Multiskan GO',maker:'赛默飞/GO',price:89000,purchaseDate:'2023-11-02',expire:'2026-11-01',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋206室',risk:'blue'});
+  saveDB();
+}
+(function(){
+  var moved=false;
+  db.borrows.slice().forEach(function(b){
+    var it=null;db.items.forEach(function(i){if(i.name===b.list[0].name)it=i;});
+    if(it&&it.cat==='仪器'){
+      moved=true;
+      db.res.push({id:b.id,devId:it.id,devName:it.name,userId:b.borrowerId,userName:b.borrowerName,project:b.project,
+        date:b.start,slots:['上午 8:00-12:00','下午 13:00-17:00'],hours:8,samples:'1个样品',note:'',note2:'',
+        status:b.status==='active'?'using':(b.status==='returned'?'done':(b.status==='pending'?'pending':'approved')),
+        applyTime:b.createTime,signer:b.sdsSigner||b.borrowerName,signTime:b.sdsSignTime||b.createTime,
+        approveSigner:b.adminSigner||'刘敏',approveTime:b.adminSignTime||b.createTime,adminOpinion:b.adminOpinion||'同意',adminReason:'',
+        checkinTime:b.status!=='pending'?b.start+' 08:30':'',checkoutTime:b.status==='returned'?(b.returnTime||''):'',actualHours:b.status==='returned'?8:0});
+      db.borrows=db.borrows.filter(function(x){return x.id!==b.id;});
+    }
+  });
+  if(moved)saveDB();
+})();
 function saveDB(){try{localStorage.setItem(DBKEY,JSON.stringify(db));}catch(e){}}
 function logAct(text,type){db.logs.unshift({t:nowStr(),user:cur?cur.name:'系统',text:text,type:type||''});if(db.logs.length>300)db.logs.length=300;saveDB();}
 
@@ -204,7 +384,7 @@ function logAct(text,type){db.logs.unshift({t:nowStr(),user:cur?cur.name:'系统
    全局状态
 ===================================================== */
 var cur=null;
-var navTab={manager:'ledger',hazmat:'redLedger',engineer:'equip',borrower:'apply'};
+var navTab={manager:'ledger',hazmat:'redLedger',engineer:'equip',borrower:'reserve'};
 var noticeTimer=null;
 
 var RISK_TXT={red:'红(最高级)',yellow:'黄(中高级)',blue:'蓝(普通级)'};
@@ -221,11 +401,18 @@ function sdsOf(it){var h='<b>SDS 安全技术说明书 — '+esc(it.name)+'</b><
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function itemBy(id){return db.items.filter(function(x){return x.id===id;})[0];}
 function borrowsOf(id){return db.borrows.filter(function(b){return b.list.some(function(l){return l.name===itemBy(id).name;});});}
-/* 物品实时显示状态：融合借用状态 */
+/* 物品实时显示状态：融合借用/预约状态 */
 function dispStatus(it){
   if(it.status==='报废')return '报废';
   if(it.status==='过期')return '过期';
   if(it.status==='待修')return '待修';
+  if(it.cat==='仪器'){
+    var rs=db.res.filter(function(r){return r.devId===it.id;});
+    if(rs.some(function(r){return r.status==='using';}))return '借用中';
+    if(rs.some(function(r){return r.status==='pending';}))return '借用中(审批中)';
+    if(rs.some(function(r){return r.status==='approved';}))return '已预约';
+    return '在库';
+  }
   var bs=borrowsOf(it.id);
   var hasPending=bs.some(function(b){return b.status==='pending';});
   var hasActive=bs.some(function(b){return b.status==='approved'||b.status==='active';});
@@ -235,6 +422,7 @@ function dispStatus(it){
   return '在库';
 }
 function stTag(s){
+  if(s==='已预约')return '<span class="tag blue">'+s+'</span>';
   if(s.indexOf('借用')>=0)return '<span class="tag borrowing">'+s+'</span>';
   if(s==='在库')return '<span class="tag green">'+s+'</span>';
   if(s==='待修')return '<span class="tag yellow">'+s+'</span>';
@@ -273,9 +461,9 @@ function doLogin(){
 }
 function todoCount(){
   if(!cur)return 0;
-  if(cur.role==='manager')return db.borrows.filter(function(b){return b.status==='pending';}).length+db.repairs.filter(function(r){return r.st==='待处理';}).length;
+  if(cur.role==='manager')return db.borrows.filter(function(b){return b.status==='pending';}).length+db.res.filter(function(r){return r.status==='pending';}).length+db.repairs.filter(function(r){return r.st==='待处理';}).length;
   if(cur.role==='engineer')return db.repairs.filter(function(r){return r.st==='待处理';}).length;
-  if(cur.role==='borrower')return db.borrows.filter(function(b){return b.borrowerId===cur.id&&(b.status==='pending'||b.status==='approved');}).length;
+  if(cur.role==='borrower')return db.borrows.filter(function(b){return b.borrowerId===cur.id&&(b.status==='pending'||b.status==='approved');}).length+db.res.filter(function(r){return r.userId===cur.id&&(r.status==='pending'||r.status==='approved'||r.status==='using');}).length;
   return 0;
 }
 function showNotice(){
@@ -304,10 +492,10 @@ function closeNotice(){clearInterval(noticeTimer);var ov=document.getElementById
 ===================================================== */
 function route(){if(!cur){renderLogin();return;}renderShell();}
 var NAV={
-  manager:[['ledger','台账总览'],['approve','借用审批'],['waste','危废记录'],['repair','报修工单'],['logs','监控日志']],
+  manager:[['ledger','台账总览'],['resApprove','仪器预约审批'],['approve','试剂借用审批'],['violations','违规记录'],['waste','危废记录'],['repair','报修工单'],['logs','监控日志']],
   hazmat:[['redLedger','红色等级台账'],['handover','双人收发记录']],
   engineer:[['equip','设备台账'],['repairList','报修工单']],
-  borrower:[['apply','申请借用'],['records','借用记录']]
+  borrower:[['reserve','仪器预约'],['apply','试剂借用'],['records','借用记录'],['violations','违规记录']]
 };
 function renderShell(){
   var nav=NAV[cur.role];
@@ -334,18 +522,23 @@ function showModal(body,foot){closeModal();app.insertAdjacentHTML('beforeend','<
 function closeModal(){var ov=document.getElementById('mOv');if(ov)ov.remove();}
 function can(){return '<button class="btn ghost" onclick="closeModal()">取消</button>';}
 
+function qStr(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
 function openTodo(){
   var list=[];
   if(cur.role==='manager'){
-    db.borrows.filter(function(b){return b.status==='pending';}).forEach(function(b){list.push({t:'待审批借用单：'+b.borrowerName+' '+b.list[0].name+'（'+b.id+'）',a:'goApprove("'+b.id+'")',at:'去审批'});});
-    db.repairs.filter(function(r){return r.st==='待处理';}).forEach(function(r){list.push({t:'待处理报修：'+r.dev,a:'goRepair("'+r.id+'")',at:'查看'});});
+    db.borrows.filter(function(b){return b.status==='pending';}).forEach(function(b){list.push({t:'待审批借用单：'+b.borrowerName+' '+b.list[0].name+'（'+b.id+'）',a:"goApprove('"+qStr(b.id)+"')",at:'去审批'});});
+    db.res.filter(function(r){return r.status==='pending';}).forEach(function(r){list.push({t:'待审批仪器预约：'+r.userName+' '+r.devName+'（'+r.date+'）',a:"goResApprove('"+qStr(r.id)+"')",at:'去审批'});});
+    db.repairs.filter(function(r){return r.st==='待处理';}).forEach(function(r){list.push({t:'待处理报修：'+r.dev,a:"goRepair('"+qStr(r.id)+"')",at:'查看'});});
     var lows=db.items.filter(function(i){return i.status!=='报废'&&i.stock<=i.minStock&&i.minStock>0;});
     lows.forEach(function(i){list.push({t:'低库存：'+i.name+' 剩'+i.stock+i.unit,a:'goLedger()',at:'补货'});});
   }else if(cur.role==='engineer'){
-    db.repairs.filter(function(r){return r.st==='待处理';}).forEach(function(r){list.push({t:'待处理报修：'+r.dev,a:'goRepair("'+r.id+'")',at:'处理'});});
+    db.repairs.filter(function(r){return r.st==='待处理';}).forEach(function(r){list.push({t:'待处理报修：'+r.dev,a:"goRepair('"+qStr(r.id)+"')",at:'处理'});});
   }else if(cur.role==='borrower'){
-    db.borrows.filter(function(b){return b.borrowerId===cur.id&&b.status==='pending';}).forEach(function(b){list.push({t:'申请待审批：'+b.list[0].name,a:'goRecord("'+b.id+'")',at:'查看'});});
-    db.borrows.filter(function(b){return b.borrowerId===cur.id&&b.status==='approved';}).forEach(function(b){list.push({t:'审批通过，待领用：'+b.list[0].name,a:'goRecord("'+b.id+'")',at:'领用'});});
+    db.borrows.filter(function(b){return b.borrowerId===cur.id&&b.status==='pending';}).forEach(function(b){list.push({t:'申请待审批：'+b.list[0].name,a:"goRecord('"+qStr(b.id)+"')",at:'查看'});});
+    db.borrows.filter(function(b){return b.borrowerId===cur.id&&b.status==='approved';}).forEach(function(b){list.push({t:'审批通过，待领用：'+b.list[0].name,a:"goRecord('"+qStr(b.id)+"')",at:'领用'});});
+    db.res.filter(function(r){return r.userId===cur.id&&r.status==='pending';}).forEach(function(r){list.push({t:'仪器预约待审批：'+r.devName+' '+r.date,a:"goRes('"+qStr(r.id)+"')",at:'查看'});});
+    db.res.filter(function(r){return r.userId===cur.id&&r.status==='approved';}).forEach(function(r){list.push({t:'仪器预约已通过'+(r.date<=today()?'，请扫码签到':'，待开始')+'：'+r.devName+' '+r.date,a:"goRes('"+qStr(r.id)+"')",at:r.date<=today()?'签到':'查看'});});
+    db.res.filter(function(r){return r.userId===cur.id&&r.status==='using';}).forEach(function(r){list.push({t:'仪器使用中，请签退：'+r.devName,a:"goRes('"+qStr(r.id)+"')",at:'签退'});});
   }
   var body=list.length?
     '<h3>我的待办（'+list.length+'）</h3><div style="max-height:360px;overflow:auto;">'+list.map(function(x){return '<div class="sig-row"><span style="flex:1;">'+esc(x.t)+'</span><button class="btn mini primary" onclick="'+x.a+'">'+x.at+'</button></div>';}).join('')+'</div>'
@@ -356,6 +549,8 @@ function goApprove(id){closeModal();navTab.manager='approve';renderShell();setTi
 function goRepair(id){closeModal();navTab[cur.role]=(cur.role==='engineer'?'repairList':'repair');renderShell();}
 function goLedger(){closeModal();navTab[cur.role]='ledger';renderShell();}
 function goRecord(id){closeModal();navTab.borrower='records';renderShell();setTimeout(function(){openBorrowForm(id);},40);}
+function goRes(id){closeModal();navTab.borrower='records';renderShell();setTimeout(function(){openResForm(id);},40);}
+function goResApprove(id){closeModal();navTab.manager='resApprove';renderShell();setTimeout(function(){openResForm(id);},40);}
 
 function openLogModal(){
   showModal('<h3>全部操作日志（审计留痕）</h3><div style="max-height:420px;overflow:auto;"><table><thead><tr><th style="width:110px;">时间</th><th style="width:90px;">操作人</th><th>内容</th></tr></thead><tbody>'+
@@ -385,7 +580,9 @@ function renderPage(t){
   var el=document.getElementById('pg');if(!el)return;
   if(cur.role==='manager'){
     if(t==='ledger')el.innerHTML=vLedger();
+    else if(t==='resApprove')el.innerHTML=vResApprove();
     else if(t==='approve')el.innerHTML=vApprove();
+    else if(t==='violations')el.innerHTML=vViolations();
     else if(t==='waste')el.innerHTML=vWaste();
     else if(t==='repair')el.innerHTML=vRepairM();
     else el.innerHTML=vLogs();
@@ -396,7 +593,9 @@ function renderPage(t){
     if(t==='equip')el.innerHTML=vEquip();
     else el.innerHTML=vRepairE();
   }else if(cur.role==='borrower'){
-    if(t==='apply')el.innerHTML=vApply();
+    if(t==='reserve')el.innerHTML=vReserve();
+    else if(t==='apply')el.innerHTML=vApply();
+    else if(t==='violations')el.innerHTML=vViolations();
     else el.innerHTML=vRecords();
   }
 }
@@ -406,10 +605,8 @@ function renderPage(t){
 ===================================================== */
 function openItemDetail(id){
   var it=itemBy(id);
-  var bs=db.borrows.filter(function(b){return b.list.some(function(l){return l.name===it.name;});});
-  bs.sort(function(a,b){return a.createTime>b.createTime?-1:1;});
   var low=it.stock<=it.minStock&&it.minStock>0&&it.status!=='报废';
-  showModal('<h3>物品详情 — '+esc(it.name)+'</h3>'+
+  var head='<h3>物品详情 — '+esc(it.name)+'</h3>'+
     '<div class="form-section"><h4>基础信息</h4>'+
     '<div class="sig-row"><b>编号：</b>'+esc(it.id)+'</div>'+
     '<div class="sig-row"><b>分类：</b>'+esc(it.cat)+'　　<b>规格型号：</b>'+esc(it.spec)+'</div>'+
@@ -417,7 +614,43 @@ function openItemDetail(id){
     '<div class="sig-row"><b>单价：</b>¥'+it.price+'　　<b>购入日期：</b>'+esc(it.purchaseDate||'-')+'</div>'+
     '<div class="sig-row"><b>有效期/检定周期：</b>'+(it.expire||'-')+'　　<b>存放位置：</b>'+esc(it.loc)+'</div>'+
     '<div class="sig-row"><b>当前库存：</b>'+(low?'<span style="color:#e74c3c;">':'')+it.stock+' '+esc(it.unit)+(low?'（低于阈值'+it.minStock+'）</span>':'')+'　　<b>风险等级：</b>'+riskTag(it.risk)+'</div>'+
-    '<div class="sig-row"><b>实时状态：</b>'+stTag(dispStatus(it))+'</div></div>'+
+    '<div class="sig-row"><b>实时状态：</b>'+stTag(dispStatus(it))+'</div></div>';
+  if(it.cat==='仪器'){
+    var days=30,from=addDays(today(),-(days-1));
+    var mine=db.res.filter(function(r){return r.devId===it.id&&r.date>=from&&r.date<=today()&&r.status!=='canceled'&&r.status!=='rejected';});
+    var hours=mine.reduce(function(s,r){return s+r.hours;},0);
+    var cap=(it.id==='YQ-002')?2:1;
+    var util=hours/(days*12*cap)*100;
+    var byU={};mine.forEach(function(r){byU[r.userName]=(byU[r.userName]||0)+r.hours;});
+    var users=Object.keys(byU).map(function(u){return{name:u,h:byU[u]};}).sort(function(a,b){return b.h-a.h;});
+    var weeks=[];
+    for(var w=7;w>=0;w--){
+      var s0=addDays(today(),-(w*7+6)),e0=addDays(today(),-(w*7)),h=0;
+      db.res.forEach(function(r){if(r.devId===it.id&&r.date>=s0&&r.date<=e0&&r.status!=='canceled'&&r.status!=='rejected')h+=r.hours;});
+      weeks.push({label:(w===0?'本周':e0.slice(5)),hours:h});
+    }
+    var hist=db.res.filter(function(r){return r.devId===it.id;}).sort(function(a,b){return a.date>b.date?-1:1;}).slice(0,10);
+    showModal(head+
+      '<div class="form-section"><h4>仪器使用数据（近30天，直观图表）</h4>'+
+      '<div class="kpi-row" style="margin-bottom:10px;">'+
+        '<div class="kpi"><div class="k-label">利用率</div><div class="k-val" style="font-size:26px;">'+util.toFixed(1)+'<em>%</em></div><div class="muted">机时 '+hours+'h ÷ 可用 '+(days*12*cap)+'h</div></div>'+
+        '<div class="kpi"><div class="k-label">预约次数</div><div class="k-val" style="font-size:26px;">'+mine.length+'<em>次</em></div><div class="muted">近30天有效预约</div></div>'+
+        '<div class="kpi"><div class="k-label">当前状态</div><div style="padding:12px 0 6px;">'+stTag(dispStatus(it))+'</div><div class="muted">'+esc(it.loc)+'</div></div>'+
+      '</div>'+
+      (users.length?'<div style="font-size:12.5px;color:#5a6c82;margin-bottom:2px;">谁用得最多（机时排行）</div>'+users.slice(0,3).map(function(u,i){return barRow(u.name,u.h/(users[0].h||1)*100,u.h+'h',i===0?'#6c3aa7':'#8a63c9');}).join(''):'<div class="muted" style="padding:6px 0;">近30天无使用记录'+(it.status==='待修'?'（设备待修中）':'')+'</div>')+
+      '<div style="font-size:12.5px;color:#5a6c82;margin:12px 0 2px;">近8周使用趋势（小时/周）</div>'+trendChart(weeks)+
+      '<div style="font-size:12.5px;color:#5a6c82;margin:14px 0 2px;">高峰时段分析（该仪器各时段预约密度）</div>'+peakHeatmap(it.id)+
+      '<div style="margin-top:8px;"><button class="btn mini" onclick="openUsageDashboard(30)">查看全实验室设备对比分析 →</button></div>'+
+      '</div>'+
+      '<div class="form-section"><h4>预约记录明细（谁在用 / 历史留痕）</h4>'+
+      (hist.length?'<table><thead><tr><th>单号</th><th>使用人</th><th>项目</th><th>日期时段</th><th>状态</th></tr></thead><tbody>'+
+        hist.map(function(r){return '<tr'+(r.status==='using'&&r.date<today()?' class="row-overdue"':'')+'><td>'+esc(r.id)+'</td><td>'+esc(r.userName)+'</td><td>'+esc(r.project)+'</td><td>'+r.date+'<br><span class="muted">'+esc(r.slots.join('、'))+'</span></td><td>'+rPill(r)+'</td></tr>';}).join('')+'</tbody></table>':'<div class="muted" style="padding:14px;text-align:center;">该仪器暂无预约记录</div>')+'</div>',
+      can());
+    return;
+  }
+  var bs=db.borrows.filter(function(b){return b.list.some(function(l){return l.name===it.name;});});
+  bs.sort(function(a,b){return a.createTime>b.createTime?-1:1;});
+  showModal(head+
     '<div class="form-section"><h4>借用记录明细（谁在借用 / 历史留痕）</h4>'+
     (bs.length?'<table><thead><tr><th>单号</th><th>借用人</th><th>项目</th><th>数量</th><th>拟用区间</th><th>状态</th></tr></thead><tbody>'+
       bs.map(function(b){return '<tr'+(b.status==='active'&&diffDay(b.end)>0?' class="row-overdue"':'')+'><td>'+esc(b.id)+'</td><td>'+esc(b.borrowerName)+'</td><td>'+esc(b.project)+'</td><td>'+esc(b.list[0].qty)+'</td><td>'+b.start+' ~ '+b.end+'</td><td>'+bPill(b)+'</td></tr>';}).join('')+
@@ -444,7 +677,7 @@ function vLedger(){
   '<div class="card"><h2>台账总览</h2><div class="sub">库存为核心数据库，全员只读实时更新 · 共 '+db.items.length+' 条 · 点击物品名称查看借用明细</div>'+
   '<div class="toolbar"><input id="lf_kw" placeholder="搜索编号/名称/型号/厂家/位置…" value="'+esc(lf.kw)+'" onkeyup="lf.kw=this.value;renderPage(\'ledger\')" style="width:260px;">'+
   '<select onchange="lf.risk=this.value;renderPage(\'ledger\')" style="width:140px;"><option value="">全部风险</option>'+['red','yellow','blue'].map(function(r){return '<option value="'+r+'"'+(lf.risk===r?' selected':'')+'>'+RISK_TXT[r]+'</option>';}).join('')+'</select>'+
-  '<div class="grow"></div><button class="btn primary big" onclick="openItemWizard()">＋ 新增物品</button></div>'+
+  '<div class="grow"></div><button class="btn big" style="margin-right:10px;" onclick="openUsageDashboard(30)">仪器使用分析</button><button class="btn primary big" onclick="openItemWizard()">＋ 新增物品</button></div>'+
   '<table><thead><tr><th>编号</th><th>名称</th><th>分类</th><th>规格</th><th>风险</th><th>库存</th><th>实时状态</th><th>位置</th><th>有效期</th><th>操作</th></tr></thead><tbody>'+
   list.map(function(i){var low=i.stock<=i.minStock&&i.minStock>0&&i.status!=='报废';
     return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span>'+(low?' <span class="lg-tag">缺</span>':'')+'</td><td>'+esc(i.cat)+'</td><td>'+esc(i.spec)+'</td><td>'+riskTag(i.risk)+'</td>'+
@@ -485,7 +718,7 @@ function csBtnState(){var v=document.getElementById('cs_st').value,need=v==='报
 function applyStatus(id){var st=document.getElementById('cs_st').value,note=document.getElementById('cs_note').value.trim();var it=itemBy(id);logAct('将「'+id+' '+it.name+'」状态变更为「'+st+'」'+(note?'，备注：'+note:''));it.status=st;saveDB();closeModal();renderShell();toast('状态已更新');}
 /* 借用审批 */
 function vApprove(){
-  return '<div class="card"><h2>借用审批</h2><div class="sub">点击单号查看完整申请表并完成审批/领用/归还签字</div>'+
+  return '<div class="card"><h2>试剂借用审批</h2><div class="sub">试剂/耗材/气体的借用单审批 · 仪器预约请到「仪器预约审批」</div>'+
   '<table><thead><tr><th>单号</th><th>借用人</th><th>物品</th><th>项目</th><th>拟用区间</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
   db.borrows.map(function(b){return '<tr'+(b.status==='active'&&diffDay(b.end)>0?' class="row-overdue"':'')+'><td><a onclick="openBorrowForm(\''+b.id+'\')">'+esc(b.id)+'</a></td><td>'+esc(b.borrowerName)+'</td><td>'+esc(b.list[0].name)+' '+esc(b.list[0].qty)+'</td><td>'+esc(b.project)+'</td><td>'+b.start+' ~ '+b.end+'</td><td>'+bPill(b)+'</td><td><button class="btn mini primary" onclick="openBorrowForm(\''+b.id+'\')">处理</button></td></tr>';}).join('')+'</tbody></table></div>';
 }
@@ -498,36 +731,116 @@ function openBorrowForm(id){
     '<div class="sig-row"><b>拟用日期：</b>'+b.start+' 至 '+b.end+'</div>'+
     '<div class="sig-row"><b>借用物品清单：</b><br>'+b.list.map(function(l,i){return '<div style="margin:4px 0 4px 110px;">'+(i+1)+'. '+esc(l.name)+' / '+esc(l.spec)+' / '+esc(l.qty)+'</div>';}).join('')+'</div>'+
     '<div class="sig-row"><b>安全声明：</b>本人已阅读SDS及操作规程，承诺全程合规，发生事故自负其责。</div>'+
-    '<div class="sig-row"><b>借用人签字：</b>'+sig('sds',b.sdsSigned,b.sdsSigner,b.sdsSignTime,cur.role==='borrower'&&b.borrowerId===cur.id&&b.status==='pending')+'</div></div>';
+    '<div class="sig-row"><b>借用人签字：</b>'+sig('sds',b.sdsSigned,b.sdsSigner,b.sdsSignTime,cur.role==='borrower'&&b.borrowerId===cur.id&&b.status==='pending',b.id)+'</div></div>';
   var sec2='<div class="form-section"><h4>② 审批与交接（管理员填写）</h4>'+
     '<div class="sig-row"><b>管理员意见：</b>'+(b.adminOpinion||'未审批')+(b.adminReason?'　原因：'+esc(b.adminReason):'')+'</div>'+
     '<div class="sig-row"><b>交接状态备注：</b>'+(b.handoverNote||'—')+'</div>'+
-    '<div class="sig-row"><b>领用签字（管理员）：</b>'+sig('admin',!!b.adminSigner,b.adminSigner,b.adminSignTime,cur.role==='manager'&&b.status==='pending')+'</div>'+
+    '<div class="sig-row"><b>领用签字（管理员）：</b>'+sig('admin',!!b.adminSigner,b.adminSigner,b.adminSignTime,cur.role==='manager'&&b.status==='pending',b.id)+'</div>'+
     (b.status==='approved'?'<div class="sig-row"><b>领用确认：</b>'+(b.borrowerId===cur.id?'<button class="btn mini primary" onclick="confirmPickup(\''+b.id+'\')">我已领取，确认出库</button>':'<span class="sig sig-pending">待借用人确认领用</span>')+'</div>':'')+
     '</div>';
   var sec3='<div class="form-section"><h4>③ 归还确认（双方填写）</h4>'+
     '<div class="sig-row"><b>归还日期：</b>'+(b.returnDate||'—')+'</div>'+
-    '<div class="sig-row"><b>归还状态确认：</b>'+(b.returnStatus||'未归还')+'</div>'+
-    '<div class="sig-row"><b>借用人归还签字：</b>'+sig('ret',!!b.returnSigner,b.returnSigner,b.returnTime,cur.role==='borrower'&&b.borrowerId===cur.id&&b.status==='active')+'</div>'+
-    '<div class="sig-row"><b>管理员验收签字：</b>'+sig('retAdmin',!!b.returnAdminSigner,b.returnAdminSigner,b.returnTime,cur.role==='manager'&&b.status==='active'&&!!b.returnSigner)+'</div></div>';
+    '<div class="sig-row"><b>归还状态确认：</b>'+
+      (b.status==='active'&&cur.role==='manager'?'<select id="ret_status" style="height:32px;padding:3px 6px;border:1px solid #ccd5e0;border-radius:4px;"><option'+(b.returnStatus==='完好无损'?' selected':'')+'>完好无损</option><option'+(b.returnStatus==='正常损耗'?' selected':'')+'>正常损耗</option><option'+(b.returnStatus==='损坏待修'?' selected':'')+'>损坏待修</option></select>':'(需管理员验收时选择 — 当前：'+(b.returnStatus||'未归还')+')')+
+    '</div>'+
+    '<div class="sig-row"><b>借用人归还签字：</b>'+sig('ret',!!b.returnSigner,b.returnSigner,b.returnTime,cur.role==='borrower'&&b.borrowerId===cur.id&&b.status==='active',b.id)+'</div>'+
+    '<div class="sig-row"><b>管理员验收签字：</b>'+sig('retAdmin',!!b.returnAdminSigner,b.returnAdminSigner,b.returnTime,cur.role==='manager'&&b.status==='active'&&!!b.returnSigner,b.id)+'</div></div>';
   showModal('<h3>借用申请表 · '+esc(b.id)+'</h3>'+sec1+sec2+sec3,'<button class="btn ghost" onclick="closeModal()">关闭</button>');
 }
-function sig(type,done,who,when,canSign){
+function sig(type,done,who,when,canSign,id){
   if(done)return '<span class="sig sig-done">已签：'+esc(who)+' @ '+esc(when)+'</span>';
-  if(canSign)return '<button class="btn mini primary" onclick="doSign(\''+type+'\')">点击签名</button><span class="sig sig-pending">待签</span>';
+  if(canSign)return '<button class="btn mini primary" onclick="doSign(\''+type+'\',\''+qStr(id)+'\')">点击签名</button><span class="sig sig-pending">待签</span>';
   return '<span class="sig sig-pending">待签</span>';
 }
-function doSign(type){
-  var b=db.borrows.filter(function(x){return x.id===document.querySelector('#mBox h3').textContent.split('·')[1].trim();})[0];
+function doSign(type,id){
+  var b=db.borrows.filter(function(x){return x.id===id;})[0];
   var tm=dtStr();
   if(type==='sds'){b.sdsSigned=true;b.sdsSigner=cur.name;b.sdsSignTime=tm;b.status='pending';logAct('在借用单'+b.id+'签署借用人(安全声明)签字');}
   if(type==='admin'){b.adminOpinion='同意';b.adminSigner=cur.name;b.adminSignTime=tm;b.status='approved';logAct('审批通过借用单'+b.id+'（'+b.borrowerName+' '+b.list[0].name+'），签署领用签字','审批');}
   if(type==='ret'){b.returnSigner=cur.name;b.returnTime=tm;b.returnStatus=b.returnStatus||'完好无损';logAct('在借用单'+b.id+'签署借用人归还签字');}
-  if(type==='retAdmin'){b.returnAdminSigner=cur.name;b.returnTime=tm;b.returnDate=today();b.status='returned';logAct('在借用单'+b.id+'签署管理员验收，单据状态→已归还');}
+  if(type==='retAdmin'){
+    // 归还状态：完好无损(仪器可加回) / 正常损耗(消耗品不加) / 损坏待修
+    var retOpt=(document.getElementById('ret_status')||{}).value||(b.returnStatus||'完好无损');
+    b.returnAdminSigner=cur.name;b.returnTime=tm;b.returnDate=today();b.returnStatus=retOpt;b.status='returned';
+    // 自动归还库存：仅"完好无损"且物品是仪器才加回（试剂/耗材/气体消耗掉）
+    if(retOpt==='完好无损'){
+      b.list.forEach(function(l){
+        var it=db.items.find(function(i){return i.name===l.name;});
+        if(!it)return;
+        var num=parseFloat(String(l.qty||'0').replace(/[^\d.]/g,''));
+        if(isNaN(num)||num<=0)return;
+        if(it.cat==='仪器'){
+          it.stock+=num;
+          logAct('归还加回「'+it.id+' '+it.name+'」库存 +'+num+it.unit);
+        }else{
+          logAct('「'+it.id+' '+it.name+'」归还状态完好但属'+it.cat+'，不再加回库存');
+        }
+      });
+    }else{
+      logAct('借用单'+b.id+'归还状态为「'+retOpt+'」，未加回库存');
+    }
+    logAct('在借用单'+b.id+'签署管理员验收，单据状态→已归还');
+  }
   saveDB();closeModal();openBorrowForm(b.id);
 }
-function confirmPickup(id){var b=db.borrows.filter(function(x){return x.id===id;})[0];b.status='active';b.handoverNote=b.handoverNote||'借用人已确认领取出库';logAct('借用人 '+b.borrowerName+' 确认领取借用单 '+b.id+'，状态→使用中');saveDB();closeModal();openBorrowForm(id);}
+function confirmPickup(id){
+  var b=db.borrows.filter(function(x){return x.id===id;})[0];
+  b.status='active';b.handoverNote=b.handoverNote||'借用人已确认领取出库';
+  // 自动扣减库存：按 name+spec 匹配 db.items，从 qty 字符串里提取数字
+  b.list.forEach(function(l){
+    var it=db.items.find(function(i){return i.name===l.name;});
+    if(!it)return;
+    var num=parseFloat(String(l.qty||'0').replace(/[^\d.]/g,''));
+    if(isNaN(num)||num<=0)return;
+    if(it.stock<num){toast('⚠ '+it.name+' 库存不足（有'+it.stock+'，需'+num+'）','#e74c3c');}
+    it.stock=Math.max(0,it.stock-num);
+    logAct('出库扣减「'+it.id+' '+it.name+'」库存 -'+num+it.unit);
+  });
+  logAct('借用人 '+b.borrowerName+' 确认领取借用单 '+b.id+'，状态→使用中');
+  saveDB();closeModal();openBorrowForm(id);
+}
 /* 危废 / 报修 / 日志 */
+var _vf='all';
+function vViolations(){
+  var tabs=[['all','全部'],['待处理','待处理'],['已处理','已处理']];
+  var stColors={待处理:'#e74c3c',已处理:'#27ae60',已确认:'#f39c12'};
+  var rows=db.violations.filter(function(v){return _vf==='all'||v.status===_vf;});
+  var isMgr=cur.role==='manager';
+  return '<div class="card"><h2>违规记录</h2><div class="sub">仪器预约未按时扫码签到 / 迟到 / 超时使用 等违规自动登记 · 管理员可处理</div>'+
+  '<div class="toolbar">'+tabs.map(function(t){return '<button class="btn '+(_vf===t[0]?'primary':'')+'" style="padding:5px 14px;" onclick="_vf=\''+t[0]+'\';renderPage(\'violations\')">'+t[1]+'（'+(t[0]==='all'?db.violations.length:db.violations.filter(function(v){return v.status===t[0];}).length)+'）</button>';}).join('')+'</div>'+
+  '<table><thead><tr><th>违规编号</th><th>使用人</th><th>仪器</th><th>项目</th><th>日期</th><th>违规类型</th><th>状态</th>'+(isMgr?'<th>操作</th>':'')+'</tr></thead><tbody>'+
+  (rows.length?rows.map(function(v){
+    return '<tr><td>'+esc(v.id)+'</td><td>'+esc(v.userName)+'</td><td>'+esc(v.devName)+'</td><td>'+esc(v.project)+'</td><td>'+v.date+'</td><td><span style="color:#e74c3c;font-weight:bold;">'+esc(v.violationType)+'</span></td>'+
+      '<td><span style="color:'+(stColors[v.status]||'#94a2b5')+';">'+v.status+'</span></td>'+
+      (isMgr?'<td>'+(v.status==='待处理'?'<button class="btn mini primary" onclick="handleViol(\''+qStr(v.id)+'\')">处理</button>':'<button class="btn mini" onclick="openViolDetail(\''+qStr(v.id)+'\')">详情</button>')+'</td>':'')+'</tr>';
+  }).join(''):'<tr><td colspan="'+(isMgr?8:7)+'" class="muted" style="text-align:center;padding:28px;">暂无违规记录</td></tr>')+'</tbody></table></div>';
+}
+function openViolDetail(id){var v=db.violations.filter(function(x){return x.id===id;})[0];if(!v)return;showModal('<h3>违规记录详情 — '+esc(v.id)+'</h3><div class="frm">'+
+  '<div class="sig-row"><b>违规编号：</b>'+esc(v.id)+'</div>'+
+  '<div class="sig-row"><b>使用人：</b>'+esc(v.userName)+'　　<b>仪器：</b>'+esc(v.devName)+'</div>'+
+  '<div class="sig-row"><b>项目：</b>'+esc(v.project)+'　　<b>日期：</b>'+v.date+'</div>'+
+  '<div class="sig-row"><b>违规类型：</b><span style="color:#e74c3c;font-weight:bold;">'+esc(v.violationType)+'</span></div>'+
+  '<div class="sig-row"><b>违规详情：</b>'+esc(v.description)+'</div>'+
+  '<div class="sig-row"><b>关联预约：</b><a onclick="closeModal();openResForm(\''+qStr(v.resId)+'\')">'+esc(v.resId)+'</a></div>'+
+  (v.status==='已处理'?'<div class="sig-row"><b>处理结果：</b>'+esc(v.handleResult)+'　<b>处理人：</b>'+esc(v.handleBy)+'　<b>时间：</b>'+esc(v.handleTime)+'</div>':'')+
+'</div>',can());}
+function handleViol(id){
+  var v=db.violations.filter(function(x){return x.id===id;})[0];
+  showModal('<h3>处理违规 — '+esc(v.id)+'</h3><div class="frm">'+
+    '<div class="sig-row"><b>违规类型：</b>'+esc(v.violationType)+'　　<b>使用人：</b>'+esc(v.userName)+'</div>'+
+    '<div class="sig-row"><b>违规详情：</b>'+esc(v.description)+'</div>'+
+    '<label>处理结果 <span class="req">*</span></label><select id="vl_res" style="height:38px;">'+
+      ['口头提醒','书面提醒','警告一次','取消本次预约资格','暂停预约3天','按组规处理'].map(function(o){return '<option>'+o+'</option>';}).join('')+'</select>'+
+    '<label>备注</label><textarea id="vl_note" rows="2" placeholder="说明具体情况"></textarea></div>',
+    '<button class="btn primary" onclick="doHandleViol(\''+qStr(id)+'\')">确认处理</button>'+can());
+}
+function doHandleViol(id){
+  var v=db.violations.filter(function(x){return x.id===id;})[0];
+  var res=document.getElementById('vl_res').value,note=document.getElementById('vl_note').value.trim();
+  v.status='已处理';v.handleResult=res+(note?' · '+note:'');v.handleBy=cur.name;v.handleTime=dtStr();
+  logAct('处理违规 '+v.id+'（'+v.userName+' '+v.devName+'）：'+res,'违规');
+  saveDB();closeModal();renderShell();toast('违规已处理');
+}
 function vWaste(){
   return '<div class="card"><h2>危废处置记录</h2><div class="sub">实验室废弃物转运留痕 · 双签</div><div class="toolbar"><div class="grow"></div><button class="btn primary" onclick="addWaste()">＋ 新增</button></div>'+
   '<table><thead><tr><th>日期</th><th>废物类别</th><th>数量</th><th>处置方式</th><th>经办人</th><th>复核人</th></tr></thead><tbody>'+
@@ -606,7 +919,8 @@ function retSign(hid){var h=db.handovers.filter(function(x){return x.id===hid;})
 ===================================================== */
 function vEquip(){
   var eq=db.items.filter(function(i){return i.cat==='仪器';});
-  return '<div class="card"><h2>设备台账</h2><div class="sub">大型精密仪器校准/报修/强制停用 · 点击名称查看借用明细</div>'+
+  return '<div class="card"><h2>设备台账</h2><div class="sub">大型精密仪器校准/报修/强制停用 · 点击仪器名称查看使用数据与预约明细</div>'+
+  '<div class="toolbar"><div class="grow"></div><button class="btn primary" onclick="openUsageDashboard(30)">仪器使用分析</button></div>'+
   '<table><thead><tr><th>编号</th><th>名称</th><th>规格</th><th>购入日</th><th>检定周期</th><th>实时状态</th><th>操作</th></tr></thead><tbody>'+
   eq.map(function(i){return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span></td><td>'+esc(i.spec)+'</td><td>'+esc(i.purchaseDate||'-')+'</td><td>'+(i.expire||'-')+'</td><td>'+stTag(dispStatus(i))+'</td><td><button class="btn mini" onclick="engRepair(\''+i.id+'\')">报修</button><button class="btn mini danger" onclick="engStop(\''+i.id+'\')">强制停用</button></td></tr>';}).join('')+'</tbody></table></div>';
 }
@@ -620,16 +934,311 @@ function vRepairE(){
 function fixRepair(i){db.repairs[i].st='已修复';db.repairs[i].engineer=cur.name;db.repairs[i].finishTime=dtStr();logAct('完成报修工单闭环：'+db.repairs[i].dev);saveDB();renderShell();toast('已标记修复');}
 
 /* =====================================================
+   C2. 仪器预约与使用分析
+===================================================== */
+var SLOTS=['上午 8:00-12:00','下午 13:00-17:00','晚上 18:00-22:00'];
+function rPill(r){
+  var m={pending:['pending','待审批'],approved:['approved','审批通过'],using:['active','使用中'],done:['returned','已完成'],rejected:['rejected','已拒绝'],canceled:['returned','已取消']};
+  var c=m[r.status]||['returned',r.status];return '<span class="pill '+c[0]+'">'+c[1]+'</span>';
+}
+function resById(id){return db.res.filter(function(x){return x.id===id;})[0];}
+/* ---- 借用人：仪器预约 ---- */
+function vReserve(){
+  return '<div class="card"><h2>仪器预约</h2><div class="sub">搜索仪器 → 选日期与时段（冲突自动检测）→ 填写项目 → 签安全培训确认 → 提交 · 点击仪器名可看使用数据</div>'+
+  '<div class="toolbar"><input id="rs_kw" placeholder="输入仪器名，如：色谱 / 离心 / 分光 / 显微…" style="width:340px;" onkeyup="rsSearch()"></div>'+
+  '<div id="rs_list"></div><div id="rs_form"></div></div>';
+}
+function rsSearch(){
+  var kw=document.getElementById('rs_kw').value.trim().toLowerCase();
+  var box=document.getElementById('rs_list');if(!kw){box.innerHTML='';return;}
+  var hits=db.items.filter(function(i){return i.cat==='仪器'&&(i.name+i.spec+i.loc).toLowerCase().indexOf(kw)>=0;});
+  if(!hits.length){box.innerHTML='<div class="muted" style="padding:18px;text-align:center;">无匹配仪器</div>';return;}
+  var st=resStats(30);
+  box.innerHTML='<table><thead><tr><th>编号</th><th>仪器</th><th>位置</th><th>实时状态</th><th>近30天利用率</th><th></th></tr></thead><tbody>'+
+    hits.map(function(i){
+      var u=null;st.list.forEach(function(x){if(x.id===i.id)u=x;});
+      return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span><br><span class="muted">'+esc(i.spec)+'</span></td><td>'+esc(i.loc)+'</td><td>'+stTag(dispStatus(i))+'</td><td><b>'+(u?u.util.toFixed(1):'0.0')+'%</b></td><td><button class="btn mini primary" onclick="pickRes(\''+i.id+'\')">预约</button></td></tr>';
+    }).join('')+'</tbody></table>';
+}
+var _resDev=null,_resDate='',_resSlots=[],_resSigned=false;
+function pickRes(id){
+  _resDev=itemBy(id);_resDate=today();_resSlots=[];_resSigned=false;
+  renderResForm();
+}
+function setResDate(dt){_resDate=dt;_resSlots=[];renderResForm();}
+function toggleSlot(s){var i=_resSlots.indexOf(s);if(i>=0)_resSlots.splice(i,1);else _resSlots.push(s);renderResForm();}
+function resSign(){_resSigned=true;renderResForm();}
+function slotLoad(devId,date,slot){
+  return db.res.filter(function(r){return r.devId===devId&&r.date===date&&r.slots.indexOf(slot)>=0&&(r.status==='pending'||r.status==='approved'||r.status==='using');});
+}
+function renderResForm(){
+  var it=_resDev;if(!it)return;
+  var cap=(it.id==='YQ-002')?2:1;
+  var keepProj='',keepSamp='';
+  var pe=document.getElementById('rs_proj');
+  if(pe){keepProj=pe.value;keepSamp=document.getElementById('rs_samp').value;}
+  var daysHtml='';
+  for(var d=0;d<7;d++){
+    var dt=addDays(today(),d);
+    var wd='日一二三四五六'[new Date(dt+'T00:00:00').getDay()];
+    daysHtml+='<div class="date-chip'+(_resDate===dt?' on':'')+'" onclick="setResDate(\''+dt+'\')">'+(d===0?'今天':(d===1?'明天':dt.slice(5)))+'<br><span class="muted" style="font-size:10.5px;">周'+wd+'</span></div>';
+  }
+  var slotsHtml=SLOTS.map(function(s){
+    var bookers=slotLoad(it.id,_resDate,s);
+    var load=bookers.length,full=load>=cap;
+    var sel=_resSlots.indexOf(s)>=0;
+    return '<div class="slot-chip'+(sel?' on':'')+(full?' full':'')+'" '+(full?'':'onclick="toggleSlot(\''+s+'\')"')+'>'+s+(full?'<br><span style="font-size:10.5px;">已满：'+esc(bookers.map(function(b){return b.userName;}).join('/'))+'</span>':'<br><span style="font-size:10.5px;">余 '+Math.max(0,cap-load)+' 位</span>')+'</div>';
+  }).join('');
+  var sigHtml=_resSigned?'<span class="sig sig-done">已签：'+esc(cur.name)+' @ '+dtStr()+'</span>'
+    :'<button class="btn mini primary" id="rs_sig" disabled onclick="resSign()">点击签名</button> <span class="sig sig-pending">须先勾选培训确认</span>';
+  document.getElementById('rs_form').innerHTML=
+  '<div class="card" style="border-left:5px solid #2a78b8;"><h2>预约仪器 — '+esc(it.name)+'</h2><div class="sub">'+esc(it.id)+' · '+esc(it.spec)+' · '+esc(it.loc)+' · 每时段容量 '+cap+' 人</div>'+
+  '<div class="frm"><label>选择日期</label><div style="display:flex;gap:8px;flex-wrap:wrap;">'+daysHtml+'</div>'+
+  '<label>选择时段（可多选，灰色为已被占用）</label><div style="display:flex;gap:8px;flex-wrap:wrap;">'+slotsHtml+'</div>'+
+  '<div class="row2"><div><label>项目名称 <span class="req">*</span></label><input id="rs_proj" value="'+esc(keepProj)+'" placeholder="课题/实验名称"></div><div><label>样品数量/说明</label><input id="rs_samp" value="'+esc(keepSamp)+'" placeholder="如：6个样品"></div></div>'+
+  '<div class="sig-row"><b>安全培训确认签字：</b>'+sigHtml+'</div>'+
+  (!_resSigned?'<div class="chk-line"><input type="checkbox" id="rs_chk" onchange="document.getElementById(\'rs_sig\').disabled=!this.checked"><label for="rs_chk" style="margin:0;cursor:pointer;">我已通过该仪器的安全操作培训，承诺按 SOP 规范使用</label></div>':'')+
+  '</div><div class="m-foot"><button class="btn primary" onclick="submitRes()">提交预约申请</button></div></div>';
+}
+function submitRes(){
+  if(!_resDev)return;
+  if(!_resSlots.length){toast('请选择至少一个时段','#e74c3c');return;}
+  var proj=document.getElementById('rs_proj').value.trim();
+  if(!proj){toast('请填写项目名称','#e74c3c');return;}
+  if(!_resSigned){toast('请先签署安全培训确认','#e74c3c');return;}
+  var id='RQ'+today().replace(/-/g,'')+Math.floor(Math.random()*900+100);
+  db.res.unshift({id:id,devId:_resDev.id,devName:_resDev.name,userId:cur.id,userName:cur.name,project:proj,date:_resDate,slots:_resSlots.slice(),hours:_resSlots.length*4,samples:document.getElementById('rs_samp').value.trim(),note:'',status:'pending',applyTime:dtStr(),signer:cur.name,signTime:dtStr(),approveSigner:'',approveTime:'',adminOpinion:'',adminReason:'',checkinTime:'',checkoutTime:'',actualHours:0});
+  logAct('提交仪器预约：'+_resDev.name+' '+_resDate+' '+_resSlots.join('/')+'（项目：'+proj+'），已签安全培训确认');
+  saveDB();toast('预约已提交，等待管理员审批');
+  _resDev=null;document.getElementById('rs_form').innerHTML='';
+  navTab.borrower='records';renderShell();
+}
+/* ---- 管理员：仪器预约审批 ---- */
+function vResApprove(){
+  return '<div class="card"><h2>仪器预约审批</h2><div class="sub">点击单号查看预约表：审批签名 / 使用登记（签到 · 签退自动计时）</div>'+
+  '<table><thead><tr><th>单号</th><th>申请人</th><th>仪器</th><th>项目</th><th>日期时段</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
+  db.res.slice().sort(function(a,b){return a.date>b.date?-1:1;}).map(function(r){
+    return '<tr'+(r.status==='using'&&r.date<today()?' class="row-overdue"':'')+'><td><a onclick="openResForm(\''+r.id+'\')">'+esc(r.id)+'</a></td><td>'+esc(r.userName)+'</td><td>'+esc(r.devName)+'</td><td>'+esc(r.project)+'</td><td>'+r.date+'<br><span class="muted">'+esc(r.slots.join('、'))+'</span></td><td>'+rPill(r)+'</td><td><button class="btn mini primary" onclick="openResForm(\''+r.id+'\')">处理</button></td></tr>';
+  }).join('')+'</tbody></table></div>';
+}
+function qrSvg(data){
+  var n=21,cells=[];var hash=0;for(var i=0;i<data.length;i++)hash=(hash*31+data.charCodeAt(i))>>>0;
+  for(var i=0;i<n*n;i++){hash=(hash*1103515245+12345)>>>0;cells.push(((hash>>8)&1)===0);}
+  function pat(x,y){return ((x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13))&&(x===0||x===6||y===0||y===6||x===14||x===20||y===14||y===20||(x>=2&&x<=4&&y>=2&&y<=4)||(x>=16&&x<=18&&y>=2&&y<=4)||(x>=2&&x<=4&&y>=16&&y<=18));}
+  var rects=[];var cx=2,cy=2;
+  for(var y=0;y<n;y++)for(var x=0;x<n;x++){if(pat(x,y)||cells[y*n+x])rects.push('<rect x="'+(cx+x)+'" y="'+(cy+y)+'" width="1" height="1" fill="#12395f"/>');}
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 25 25" style="background:#fff;border:1px solid #e3e9f1;border-radius:6px;">'+rects.join('')+'</svg>';
+}
+function openResForm(id){
+  var r=resById(id);
+  var isOwner=cur.role==='borrower'&&r.userId===cur.id;
+  var canApprove=cur.role==='manager'&&r.status==='pending';
+  var sec1='<div class="form-section"><h4>① 预约信息（借用人填写）</h4>'+
+   '<div class="sig-row"><b>预约单号：</b>'+esc(r.id)+'</div>'+
+   '<div class="sig-row"><b>预约仪器：</b>'+esc(r.devName)+'（'+esc(r.devId)+'）</div>'+
+   '<div class="sig-row"><b>日期时段：</b>'+r.date+'　'+esc(r.slots.join('、'))+'（约 '+r.hours+' 小时）</div>'+
+   '<div class="sig-row"><b>项目名称：</b>'+esc(r.project)+'　　<b>样品说明：</b>'+esc(r.samples||'-')+'</div>'+
+   '<div class="sig-row"><b>安全培训确认：</b><span class="sig sig-done">已签：'+esc(r.signer)+' @ '+esc(r.signTime)+'</span></div></div>';
+  var sec2='<div class="form-section"><h4>② 审批（专职管理员）</h4>'+
+   '<div class="sig-row"><b>管理员意见：</b>'+(r.adminOpinion?(esc(r.adminOpinion)+(r.adminReason?'（'+esc(r.adminReason)+'）':'')):'未审批')+'</div>'+
+   '<div class="sig-row"><b>审批签字：</b>'+(r.approveSigner?'<span class="sig sig-done">已签：'+esc(r.approveSigner)+' @ '+esc(r.approveTime)+'</span>':'<span class="sig sig-pending">待签</span>')+'</div>'+
+   (canApprove?'<div class="sig-row"><input id="rs_op" placeholder="审批意见（选填，拒绝时必填原因）" style="flex:1;margin-right:8px;"><button class="btn mini primary" onclick="doResSign(\''+id+'\',\'approve\')">同意并签名</button><button class="btn mini danger" style="margin-left:6px;" onclick="doResSign(\''+id+'\',\'reject\')">拒绝</button></div>':'')+
+   '</div>';
+  var sec3='<div class="form-section"><h4>③ 使用登记（借用人 · 扫码签到）</h4>'+
+   '<div class="sig-row"><b>签到（开始使用）：</b>'+(r.checkinTime?'<span class="sig sig-done">'+esc(r.checkinTime)+'</span>':(isOwner&&r.status==='approved'&&r.date<=today()?'<button class="btn mini primary" onclick="showResQR(\''+id+'\')">扫描仪器二维码签到</button>':'<span class="sig sig-pending">未签到</span>'))+'</div>'+
+   '<div class="sig-row"><b>签退（结束使用）：</b>'+(r.checkoutTime?'<span class="sig sig-done">'+esc(r.checkoutTime)+' · 实际 '+r.actualHours+'h</span>':(isOwner&&r.status==='using'?'<button class="btn mini primary" onclick="doResSign(\''+id+'\',\'out\')">签退</button>':'<span class="sig sig-pending">未签退</span>'))+'</div>'+
+   (!r.checkinTime&&r.status==='approved'&&r.date<today()?'<div class="notice-red">⚠ 预约日期 '+r.date+' 已过，未按时扫码签到，系统已自动记录为违规！</div>':'')+
+   '</div>';
+  showModal('<h3>仪器预约表 · '+esc(r.id)+'</h3>'+sec1+sec2+sec3,'<button class="btn ghost" onclick="closeModal()">关闭</button>');
+}
+function showResQR(id){
+  var r=resById(id);
+  showModal('<h3>扫描仪器二维码签到</h3><div style="text-align:center;padding:10px 0;">'+qrSvg(r.devId+'|'+r.id)+
+    '<div style="font-size:12px;color:#5a6c82;margin-top:8px;">仪器编号：<b>'+esc(r.devId)+'</b><br>预约单号：<b>'+esc(r.id)+'</b><br>请使用手机扫描仪器机身上的二维码</div>'+
+    '<div style="margin-top:14px;padding:12px;background:#f6f9fd;border-radius:6px;font-size:12px;color:#5a6c82;">当前时间：<b>'+dtStr()+'</b><br>预约时段：'+esc(r.slots.join('、'))+'（'+r.date+'）<br><span class="muted">· 若当前时间不在预约时段内，将记录"迟到"违规</span></div>'+
+    '<div style="margin-top:16px;"><button class="btn primary big" onclick="doResSign(\''+id+'\',\'in\')">我已扫码 · 确认签到</button></div></div>',can());
+}
+function doResSign(id,act){
+  var r=resById(id);
+  var opEl=document.getElementById('rs_op');
+  var op=opEl?opEl.value.trim():'';
+  if(act==='approve'){r.adminOpinion='同意';if(op)r.adminReason=op;r.approveSigner=cur.name;r.approveTime=dtStr();r.status='approved';logAct('审批通过仪器预约 '+r.id+'（'+r.userName+' '+r.devName+' '+r.date+'）','审批');}
+  if(act==='reject'){if(!op){toast('拒绝必须填写原因','#e74c3c');return;}r.adminOpinion='拒绝';r.adminReason=op;r.approveSigner=cur.name;r.approveTime=dtStr();r.status='rejected';logAct('拒绝了仪器预约 '+r.id+'，原因：'+op,'审批');}
+  if(act==='in'){
+    r.status='using';r.checkinTime=dtStr();
+    var now=new Date(),startH=8,endH=22;
+    var slotH=r.slots.map(function(s){return parseInt(s.match(/\d+/)[0]);});
+    var inSlot=slotH.some(function(h){return now.getHours()>=h&&now.getHours()<h+4;});
+    if(!inSlot&&r.date<=today()){
+      var vtype=now.getHours()<Math.min.apply(null,slotH)?'提前签到':'迟到超过预约时段';
+      db.violations.unshift({id:'WG'+today().replace(/-/g,'')+Math.floor(Math.random()*900+100)+1000,
+        resId:r.id,userId:r.userId,userName:r.userName,devName:r.devName,devId:r.devId,
+        project:r.project,date:r.date,violationType:vtype,
+        description:'签到时间 '+dtStr()+' 不在预约时段内（'+r.slots.join('、')+'）',
+        status:'待处理',handleResult:'',handleTime:'',handleBy:''});
+      logAct('违规登记：'+r.userName+' '+r.devName+' '+vtype,'违规');
+      toast('已签到，但因不在预约时段内被标记为违规','#e74c3c');
+    }
+    logAct('仪器扫码签到：'+r.userName+' 开始使用 '+r.devName+'（'+r.id+'）');
+  }
+  if(act==='out'){
+    r.status='done';r.checkoutTime=dtStr();var sh=1;var a=new Date(r.checkinTime.replace(' ','T')),b=new Date(r.checkoutTime.replace(' ','T'));sh=Math.max(1,Math.round((b-a)/3600000));r.actualHours=sh;logAct('仪器签退：'+r.devName+' 使用 '+sh+' 小时（'+r.id+'）');
+  }
+  saveDB();closeModal();renderShell();
+  if(cur.role==='borrower')setTimeout(function(){openResForm(id);},30);
+}
+/* ---- 使用统计与图表 ---- */
+function resStats(days){
+  var from=addDays(today(),-(days-1));
+  var rs=db.res.filter(function(r){return r.date>=from&&r.date<=today()&&(r.status==='done'||r.status==='using'||r.status==='approved');});
+  var byDev={};
+  db.items.filter(function(i){return i.cat==='仪器';}).forEach(function(i){byDev[i.id]={name:i.name,status:i.status,hours:0,count:0,cap:(i.id==='YQ-002'?2:1),users:{}};});
+  rs.forEach(function(r){var b=byDev[r.devId];if(!b)return;b.hours+=r.hours;b.count++;b.users[r.userName]=(b.users[r.userName]||0)+r.hours;});
+  var avail=days*12;
+  var list=Object.keys(byDev).map(function(id){var b=byDev[id];return{id:id,name:b.name,status:b.status,util:b.hours/(avail*b.cap)*100,hours:b.hours,count:b.count,users:b.users};});
+  list.sort(function(a,b){return b.util-a.util;});
+  var byU={};rs.forEach(function(r){byU[r.userName]=(byU[r.userName]||0)+r.hours;});
+  var users=Object.keys(byU).map(function(u){return{name:u,hours:byU[u]};}).sort(function(a,b){return b.hours-a.hours;});
+  var weeks=[];
+  for(var w=7;w>=0;w--){
+    var s0=addDays(today(),-(w*7+6)),e0=addDays(today(),-(w*7)),h=0,c=0;
+    rs.forEach(function(r){if(r.date>=s0&&r.date<=e0){h+=r.hours;c++;}});
+    weeks.push({label:(w===0?'本周':e0.slice(5)),hours:h,count:c});
+  }
+  return {list:list,users:users,weeks:weeks,total:rs.length,hours:rs.reduce(function(s,r){return s+r.hours;},0)};
+}
+function barRow(label,pct,valTxt,color){
+  return '<div style="display:flex;align-items:center;margin:6px 0;">'+
+  '<div style="width:150px;font-size:12px;color:#41546d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="'+esc(label)+'">'+esc(label)+'</div>'+
+  '<div style="flex:1;background:#eef2f7;border-radius:4px;height:16px;margin:0 10px;overflow:hidden;">'+
+  '<div style="width:'+Math.max(2,Math.min(100,pct))+'%;height:100%;border-radius:4px;background:'+color+';"></div></div>'+
+  '<div style="width:96px;font-size:11.5px;color:#7a8aa0;text-align:right;white-space:nowrap;">'+valTxt+'</div></div>';
+}
+function trendChart(weeks){
+  var max=1;weeks.forEach(function(w){if(w.hours>max)max=w.hours;});
+  return '<div style="display:flex;align-items:flex-end;gap:6px;height:130px;padding:0 4px;">'+
+  weeks.map(function(w){
+    var h=Math.round(w.hours/max*92);
+    return '<div style="flex:1;text-align:center;display:flex;flex-direction:column;justify-content:flex-end;height:100%;">'+
+    '<div style="font-size:10.5px;color:#7a8aa0;margin-bottom:3px;">'+w.hours+'h</div>'+
+    '<div style="height:'+Math.max(4,h)+'px;background:linear-gradient(180deg,#4a9ae8,#2a78b8);border-radius:3px 3px 0 0;margin:0 2px;"></div>'+
+    '<div style="font-size:10.5px;color:#93a0b3;margin-top:4px;">'+w.label+'</div></div>';
+  }).join('')+'</div>';
+}
+function weeklyLineChart(){
+  var days=[],todayD=new Date();
+  for(var d=6;d>=0;d--){var dt=new Date(todayD);dt.setDate(dt.getDate()-d);days.push(dt.toISOString().slice(0,10));}
+  var byDay={};
+  days.forEach(function(dt){
+    var a=db.res.filter(function(r){return r.date===dt&&(r.status==='done'||r.status==='using'||r.status==='approved');});
+    var act=db.res.filter(function(r){return r.date===dt&&(r.status==='done'||r.status==='using');});
+    byDay[dt]={total:a.length,actual:act.length,label:dt.slice(5)};
+  });
+  var max=Math.max(1,days.reduce(function(s,d){return Math.max(s,byDay[d].total,byDay[d].actual);},0));
+  var W=520,H=160,pad={l:36,r:14,t:10,b:28},cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
+  function pts(key){return days.map(function(d,i){var x=pad.l+(i/(days.length-1))*cw,y=pad.t+ch-(byDay[d][key]/max*ch*0.88);return x+','+y;}).join(' ');}
+  var yTicks=[];for(var t=0;t<=4;t++){var v=Math.round(max*t/4);var y=pad.t+ch-(v/max*ch*0.88);yTicks.push('<line x1="'+pad.l+'" y1="'+y+'" x2="'+(W-pad.r)+'" y2="'+y+'" stroke="#eef2f7"/><text x="'+(pad.l-4)+'" y="'+(y+4)+'" text-anchor="end" font-size="10" fill="#94a2b5">'+v+'</text>');}
+  var legend='<div style="display:flex;gap:18px;font-size:11.5px;color:#41546d;margin-bottom:6px;"><span><span style="display:inline-block;width:14px;height:3px;background:#2a78b8;vertical-align:middle;margin-right:4px;"></span>预约次数</span><span><span style="display:inline-block;width:14px;height:3px;background:#27ae60;vertical-align:middle;margin-right:4px;"></span>实际使用次数</span></div>';
+  var p1='<polyline fill="none" stroke="#2a78b8" stroke-width="2.2" points="'+pts('total')+'"/>';
+  var p2='<polyline fill="none" stroke="#27ae60" stroke-width="2.2" points="'+pts('actual')+'"/>';
+  var dots=[];
+  days.forEach(function(d,i){['total','actual'].forEach(function(k){
+    var x=pad.l+(i/(days.length-1))*cw,y=pad.t+ch-(byDay[d][k]/max*ch*0.88),col=k==='total'?'#2a78b8':'#27ae60';
+    dots.push('<circle cx="'+x+'" cy="'+y+'" r="3.5" fill="'+col+'"/>');
+  });});
+  var xLabels=days.map(function(d,i){var x=pad.l+(i/(days.length-1))*cw;return '<text x="'+x+'" y="'+(H-8)+'" text-anchor="middle" font-size="10.5" fill="#94a2b5">'+byDay[d].label+'</text>';}).join('');
+  return legend+'<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+yTicks.join('')+p1+p2+dots.join('')+xLabels+'</svg>';
+}
+function peakHeatmap(devId){
+  var days=['周一','周二','周三','周四','周五','周六','周日'];
+  var slotNames=['上午 8:00-12:00','下午 13:00-17:00','晚上 18:00-22:00'];
+  var slotLabels=['8:00-12:00','13:00-17:00','18:00-22:00'];
+  // 3行7列：按 星期×时段 聚合计数
+  var grid=[];
+  for(var r=0;r<3;r++){grid.push([]);for(var c=0;c<7;c++){grid[r].push(0);}}
+  db.res.forEach(function(r){
+    if(devId&&r.devId!==devId)return;
+    var d=new Date(r.date);var wd=(d.getDay()+6)%7; // 0=周一
+    if(isNaN(wd)||!r.slots)return;
+    r.slots.forEach(function(s){
+      for(var si=0;si<3;si++){if(s===slotNames[si]){grid[si][wd]++;break;}}
+    });
+  });
+  // 每次预约颜色加深一档：0=极浅，1-2=浅蓝，3-4=中蓝，5+=深蓝
+  function shade(cnt){
+    if(cnt<=0)return '#f0f4f9';
+    if(cnt<=2)return '#bcd6f0';
+    if(cnt<=4)return '#6fa6da';
+    if(cnt<=6)return '#3d85c4';
+    return '#1a5d9e';
+  }
+  function txtColor(cnt){return cnt>=3?'#fff':'#3a4a5e';}
+  var cellW=78,cellH=42,timeW=92,topH=26,rowG=4;
+  var W=timeW+7*cellW+10,H=topH+3*(cellH+rowG)+6;
+  // 星期头
+  var heads=days.map(function(d,i){return '<text x="'+(timeW+i*cellW+cellW/2)+'" y="'+(topH-8)+'" text-anchor="middle" font-size="12" fill="#41546d" font-weight="600">'+d+'</text>';}).join('');
+  // 画格子
+  var cells=[];
+  for(var r=0;r<3;r++){
+    var y=topH+r*(cellH+rowG);
+    cells.push('<text x="'+(timeW-10)+'" y="'+(y+cellH/2+4)+'" text-anchor="end" font-size="11.5" fill="#41546d">'+slotLabels[r]+'</text>');
+    for(var c=0;c<7;c++){
+      var x=timeW+c*cellW,cnt=grid[r][c];
+      cells.push('<rect x="'+x+'" y="'+y+'" width="'+(cellW-4)+'" height="'+cellH+'" rx="6" ry="6" fill="'+shade(cnt)+'" stroke="#d8e2ee" stroke-width="1">');
+      cells.push('<title>'+days[c]+' '+slotLabels[r]+'：'+cnt+'次预约</title>');
+      cells.push('</rect>');
+      if(cnt>0){
+        cells.push('<text x="'+(x+(cellW-4)/2)+'" y="'+(y+cellH/2+5)+'" text-anchor="middle" font-size="15" fill="'+txtColor(cnt)+'" font-weight="bold">'+cnt+'</text>');
+      }
+    }
+  }
+  // 图例：颜色从浅到深
+  var legend='<div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:#41546d;margin-bottom:8px;">少'+
+    ['<span style="display:inline-block;width:18px;height:12px;border-radius:3px;background:#f0f4f9;border:1px solid #d8e2ee;"></span>',
+     '<span style="display:inline-block;width:18px;height:12px;border-radius:3px;background:#bcd6f0;"></span>',
+     '<span style="display:inline-block;width:18px;height:12px;border-radius:3px;background:#6fa6da;"></span>',
+     '<span style="display:inline-block;width:18px;height:12px;border-radius:3px;background:#3d85c4;"></span>',
+     '<span style="display:inline-block;width:18px;height:12px;border-radius:3px;background:#1a5d9e;"></span>'].join('')+
+    '多　<span class="muted">每记录一次预约，对应时间方块加深一档</span></div>';
+  return legend+'<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+heads+cells.join('')+'</svg>';
+}
+function openUsageDashboard(days){
+  days=days||30;
+  var st=resStats(days);
+  var avg=st.list.length?st.list.reduce(function(s,x){return s+x.util;},0)/st.list.length:0;
+  var body='<div class="toolbar" style="margin-bottom:8px;">'+
+    '<button class="btn '+(days===30?'primary':'')+'" style="padding:4px 14px;" onclick="openUsageDashboard(30)">近30天</button>'+
+    '<button class="btn '+(days===90?'primary':'')+'" style="padding:4px 14px;" onclick="openUsageDashboard(90)">近90天</button></div>'+
+  '<div class="kpi-row" style="margin-bottom:12px;">'+
+    '<div class="kpi"><div class="k-label">预约总次数</div><div class="k-val">'+st.total+'<em>次</em></div></div>'+
+    '<div class="kpi"><div class="k-label">总使用机时</div><div class="k-val">'+st.hours+'<em>小时</em></div></div>'+
+    '<div class="kpi"><div class="k-label">平均利用率</div><div class="k-val">'+avg.toFixed(1)+'<em>%</em></div></div>'+
+  '</div>'+
+  '<div class="form-section"><h4>本周预约趋势（近7天 · 预约次数 vs 实际使用次数）</h4>'+weeklyLineChart()+'</div>'+
+  '<div class="form-section"><h4>设备利用率排行 <span class="muted" style="font-weight:normal;">· 点击设备名查看详情</span></h4>'+
+    (st.list.map(function(x){
+      var pct=x.util.toFixed(1),clr=x.util<10?'#c9d4e0':'#2a78b8';
+      return '<div style="display:flex;align-items:center;margin:7px 0;">'+
+        '<a onclick="closeModal();openItemDetail(\''+x.id+'\')" style="width:150px;font-size:12px;color:#2a78b8;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none;" title="'+esc(x.name)+'">'+esc(x.name)+' ('+x.id+')</a>'+
+        '<div style="flex:1;background:#eef2f7;border-radius:4px;height:16px;margin:0 10px;overflow:hidden;">'+
+        '<div style="width:'+Math.max(2,Math.min(100,x.util))+'%;height:100%;border-radius:4px;background:'+clr+';"></div></div>'+
+        '<div style="width:110px;font-size:11.5px;color:#7a8aa0;text-align:right;">'+pct+'% · '+x.count+'次</div></div>';
+    }).join('')||'<div class="muted">暂无数据</div>')+
+    '<div class="muted" style="font-size:11px;margin-top:6px;">利用率 = 预约机时 ÷ 可用机时（每台仪器每天12小时）</div></div>';
+  showModal('<h3>仪器使用分析</h3>'+body,can());
+}
+
+/* =====================================================
    D. 借用人
 ===================================================== */
 function vApply(){
-  return '<div class="card"><h2>申请借用</h2><div class="sub">搜索物品 → 填写申请表 → 阅读SDS → 签安全声明 → 提交</div>'+
+  return '<div class="card"><h2>试剂/耗材借用</h2><div class="sub">搜索试剂/耗材/气体 → 填写申请表 → 阅读SDS → 签安全声明 → 提交（大型仪器请使用「仪器预约」）</div>'+
   '<div class="toolbar"><input id="ap_kw" placeholder="输入物品名搜索…" onkeyup="apSearch()" style="width:320px;"></div><div id="ap_list"></div><div id="ap_form"></div>';
 }
 function apSearch(){
   var kw=document.getElementById('ap_kw').value.trim().toLowerCase();
   var box=document.getElementById('ap_list');if(!kw){box.innerHTML='';apPpeEcho('');return;}
-  var hits=db.items.filter(function(i){return (i.name+i.spec).toLowerCase().indexOf(kw)>=0;});
+  var hits=db.items.filter(function(i){return i.cat!=='仪器'&&(i.name+i.spec).toLowerCase().indexOf(kw)>=0;});
   box.innerHTML=hits.length?'<table><thead><tr><th>编号</th><th>名称</th><th>风险</th><th>可用量</th><th>状态</th><th></th></tr></thead><tbody>'+hits.map(function(i){return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span><br><span class="muted">'+esc(i.spec)+'</span></td><td>'+riskTag(i.risk)+'</td><td>'+i.stock+' '+esc(i.unit)+'</td><td>'+stTag(dispStatus(i))+'</td><td><button class="btn mini primary" onclick="pickItem(\''+i.id+'\')">选择并申请</button></td></tr>';}).join('')+'</tbody></table>':'<div class="muted" style="padding:18px;text-align:center;">无匹配物品</div>';
   apPpeEcho(document.getElementById('ap_kw').value);
 }
@@ -664,10 +1273,24 @@ function submitApply(id){
   logAct('提交借用申请：'+it.name+' '+q+'（'+s+' 至 '+e+'），项目：'+proj+'，已签署安全声明');_applySigned=false;
   saveDB();toast('申请已提交，等待管理员审批');document.getElementById('ap_form').innerHTML='';navTab.borrower='records';renderShell();
 }
+var _recFilter='all';
 function vRecords(){
-  return '<div class="card"><h2>借用记录</h2><div class="sub">全部借用单 · 含审批通过状态 · 可查看他人记录 · 我的单据高亮</div>'+
-  '<table><thead><tr><th>单号</th><th>借用人</th><th>物品</th><th>项目</th><th>拟用区间</th><th>状态</th><th></th></tr></thead><tbody>'+
-  db.borrows.map(function(b){var mine=b.borrowerId===cur.id;return '<tr'+(mine?' style="background:#f0f7ff;"':'')+(b.status==='active'&&diffDay(b.end)>0?' class="row-overdue"':'')+'><td>'+esc(b.id)+'</td><td>'+esc(b.borrowerName)+(mine?' (我)':'')+'</td><td>'+esc(b.list[0].name)+' '+esc(b.list[0].qty)+'</td><td>'+esc(b.project)+'</td><td>'+b.start+' ~ '+b.end+'</td><td>'+bPill(b)+'</td><td><button class="btn mini" onclick="openBorrowForm(\''+b.id+'\')">查看申请表</button></td></tr>';}).join('')+'</tbody></table></div>';
+  var chips=[['all','全部'],['res','仪器预约'],['bor','试剂借用']];
+  var rows=[];
+  if(_recFilter!=='bor')db.res.forEach(function(r){rows.push({t:'res',d:r});});
+  if(_recFilter!=='res')db.borrows.forEach(function(b){rows.push({t:'bor',d:b});});
+  rows.sort(function(a,b){var ta=a.t==='res'?a.d.applyTime:a.d.createTime,tb=b.t==='res'?b.d.applyTime:b.d.createTime;return ta>tb?-1:(ta<tb?1:0);});
+  return '<div class="card"><h2>借用 / 预约记录</h2><div class="sub">全部记录（含他人）· 含审批通过状态 · 我的单据蓝色高亮 · 逾期红色</div>'+
+  '<div class="toolbar">'+chips.map(function(c){return '<button class="btn '+(_recFilter===c[0]?'primary':'')+'" style="padding:5px 14px;" onclick="_recFilter=\''+c[0]+'\';renderPage(\'records\')">'+c[1]+'</button>';}).join('')+'</div>'+
+  '<table><thead><tr><th>单号</th><th>类型</th><th>借用人</th><th>物品</th><th>项目</th><th>时间</th><th>状态</th><th></th></tr></thead><tbody>'+
+  rows.map(function(x){
+    if(x.t==='res'){
+      var r=x.d,mine=r.userId===cur.id,od=r.status==='using'&&r.date<today();
+      return '<tr'+(mine?' style="background:#f0f7ff;"':'')+(od?' class="row-overdue"':'')+'><td>'+esc(r.id)+'</td><td><span class="tag borrowing">仪器预约</span></td><td>'+esc(r.userName)+(mine?' (我)':'')+'</td><td>'+esc(r.devName)+'</td><td>'+esc(r.project)+'</td><td>'+r.date+'<br><span class="muted">'+esc(r.slots.join('、'))+'</span></td><td>'+rPill(r)+'</td><td><button class="btn mini" onclick="openResForm(\''+r.id+'\')">查看预约表</button></td></tr>';
+    }
+    var b=x.d,mine=b.borrowerId===cur.id,od=b.status==='active'&&diffDay(b.end)>0;
+    return '<tr'+(mine?' style="background:#f0f7ff;"':'')+(od?' class="row-overdue"':'')+'><td>'+esc(b.id)+'</td><td><span class="tag blue">试剂借用</span></td><td>'+esc(b.borrowerName)+(mine?' (我)':'')+'</td><td>'+esc(b.list[0].name)+' '+esc(b.list[0].qty)+'</td><td>'+esc(b.project)+'</td><td>'+b.start+' ~ '+b.end+'</td><td>'+bPill(b)+'</td><td><button class="btn mini" onclick="openBorrowForm(\''+b.id+'\')">查看申请表</button></td></tr>';
+  }).join('')+'</tbody></table></div>';
 }
 
 route();
