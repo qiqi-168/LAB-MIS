@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN"><head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lab-MIS · 实验室管理信息系统</title>
@@ -217,7 +218,7 @@ tr:hover td{background:#f7fafd;}
 </style>
 </head>
 <body>
-<div id="app"><div class="login-wrap"><div class="login-box"><h1>Lab-MIS</h1><div class="lg-sub">实验室管理信息系统 · 请使用账号登录</div><label>账号</label><input id="lg_u" placeholder="请输入账号" autofocus=""><label>密码</label><input id="lg_p" type="password" placeholder="请输入密码" onkeydown="if(event.key=='Enter')doLogin()"><div class="lg-err"></div><button class="btn primary big" onclick="doLogin()">登 录</button><div class="lg-hint">演示账号（密码均为 123456）：<br><b>liumin</b> 专职管理员 · <b>wangg</b> 设备维护工程师<br><b>zhangyx</b> / <b>liming</b> / <b>wangfang</b> 借用人</div></div></div></div>
+<div id="app"></div>
 <div id="toastHost"></div>
 <script>
 /* =====================================================
@@ -1267,6 +1268,5 @@ function vRecords(){
 
 route();
 </script>
-
-
-</body></html>
+</body>
+</html>
