@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lab-MIS · 实验室管理信息系统</title>
@@ -218,13 +217,13 @@ tr:hover td{background:#f7fafd;}
 </style>
 </head>
 <body>
-<div id="app"></div>
+<div id="app"><div class="login-wrap"><div class="login-box"><h1>Lab-MIS</h1><div class="lg-sub">实验室管理信息系统 · 请使用账号登录</div><label>账号</label><input id="lg_u" placeholder="请输入账号" autofocus=""><label>密码</label><input id="lg_p" type="password" placeholder="请输入密码" onkeydown="if(event.key=='Enter')doLogin()"><div class="lg-err"></div><button class="btn primary big" onclick="doLogin()">登 录</button><div class="lg-hint">演示账号（密码均为 123456）：<br><b>liumin</b> 专职管理员 · <b>wangg</b> 设备维护工程师<br><b>zhangyx</b> / <b>liming</b> / <b>wangfang</b> 借用人</div></div></div></div>
 <div id="toastHost"></div>
 <script>
 /* =====================================================
    Lab-MIS · 数据层(localStorage)
 ===================================================== */
-var DBKEY='labmis_db_v4';
+var DBKEY='labmis_db_v5';
 function today(){var d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());}
 function p2(n){return n<10?'0'+n:''+n;}
 function nowStr(){var d=new Date();return p2(d.getMonth()+1)+'-'+p2(d.getDate())+' '+p2(d.getHours())+':'+p2(d.getMinutes());}
@@ -303,14 +302,27 @@ function seed(){
       {id:'SJ-208',name:'1,3-双-（2,4-二氨基苯氧基）丙烷盐酸盐',cat:'试剂',spec:'99% 250g',maker:'阿拉丁',price:720,purchaseDate:'2025-03-15',expire:'2027-03-15',status:'正常',stock:250,unit:'g',minStock:30,loc:'试剂柜C-3层',risk:'yellow'},
       {id:'SJ-209',name:'1,4-丁二醇',cat:'试剂',spec:'99% 500mL',maker:'国药',price:110,purchaseDate:'2025-02-20',expire:'2027-02-20',status:'正常',stock:480,unit:'mL',minStock:100,loc:'试剂柜B-1层',risk:'blue'},
       {id:'SJ-210',name:'2,3-丁二醇',cat:'试剂',spec:'99% 500mL',maker:'西格玛',price:145,purchaseDate:'2025-01-10',expire:'2027-01-10',status:'正常',stock:500,unit:'mL',minStock:80,loc:'试剂柜B-1层',risk:'blue'},
-      {id:'SJ-211',name:'聚乙二醇400',cat:'试剂',spec:'分析纯 500mL',maker:'国药',price:85,purchaseDate:'2024-12-01',expire:'2026-12-01',status:'正常',stock:500,unit:'mL',minStock:100,loc:'试剂柜D-1层',risk:'blue'}
+      {id:'SJ-211',name:'聚乙二醇400',cat:'试剂',spec:'分析纯 500mL',maker:'国药',price:85,purchaseDate:'2024-12-01',expire:'2026-12-01',status:'正常',stock:500,unit:'mL',minStock:100,loc:'试剂柜D-1层',risk:'blue'},
+      /* — 耗材：玻璃器皿/一次性用品 — */
+      {id:'HC-001',name:'玻璃烧杯',cat:'耗材',spec:'50mL',maker:'蜀牛',price:5,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:200,unit:'个',minStock:50,loc:'耗材柜A-1',risk:'blue',maxStock:200},
+      {id:'HC-002',name:'玻璃烧杯',cat:'耗材',spec:'250mL',maker:'蜀牛',price:8,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:150,unit:'个',minStock:40,loc:'耗材柜A-1',risk:'blue',maxStock:150},
+      {id:'HC-003',name:'玻璃试管',cat:'耗材',spec:'18×180mm',maker:'蜀牛',price:2,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:500,unit:'支',minStock:100,loc:'耗材柜A-2',risk:'blue',maxStock:500},
+      {id:'HC-004',name:'锥形瓶',cat:'耗材',spec:'250mL',maker:'蜀牛',price:10,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:120,unit:'个',minStock:30,loc:'耗材柜A-3',risk:'blue',maxStock:120},
+      {id:'HC-005',name:'量筒',cat:'耗材',spec:'100mL',maker:'蜀牛',price:12,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:80,unit:'个',minStock:20,loc:'耗材柜B-1',risk:'blue',maxStock:80},
+      {id:'HC-006',name:'容量瓶',cat:'耗材',spec:'100mL',maker:'蜀牛',price:15,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:60,unit:'个',minStock:15,loc:'耗材柜B-2',risk:'blue',maxStock:60},
+      {id:'HC-007',name:'擦镜纸',cat:'耗材',spec:'100张/本',maker:'国产',price:8,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:30,unit:'本',minStock:10,loc:'耗材柜C-1',risk:'blue',maxStock:30},
+      {id:'HC-008',name:'塑料离心管',cat:'耗材',spec:'1.5mL',maker:'Eppendorf',price:1,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:1000,unit:'支',minStock:200,loc:'耗材柜C-2',risk:'blue',maxStock:1000},
+      {id:'HC-009',name:'移液枪头',cat:'耗材',spec:'200μL 盒装',maker:'Eppendorf',price:50,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:20,unit:'盒',minStock:5,loc:'耗材柜C-3',risk:'blue',maxStock:20},
+      {id:'HC-010',name:'载玻片',cat:'耗材',spec:'76×26mm',maker:'国产',price:0.5,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:300,unit:'片',minStock:50,loc:'耗材柜D-1',risk:'blue',maxStock:300},
+      {id:'HC-011',name:'滤纸',cat:'耗材',spec:'定性 φ9cm',maker:'国药',price:0.1,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:800,unit:'张',minStock:100,loc:'耗材柜D-2',risk:'blue',maxStock:800},
+      {id:'HC-012',name:'玻璃滴管',cat:'耗材',spec:'直头 150mm',maker:'蜀牛',price:3,purchaseDate:'2025-09-01',expire:'',status:'正常',stock:100,unit:'支',minStock:20,loc:'耗材柜D-3',risk:'blue',maxStock:100}
     ],
     borrows:[
-      {id:'BR2026092001',borrowerId:'u4',borrowerName:'张雨欣',project:'二醇类衍生物合成',list:[{name:'1,3-丙二醇',spec:'99% 1L',qty:'25 mL'}],status:'approved',createTime:'2026-09-20 09:15'},
-      {id:'BR2026091802',borrowerId:'u6',borrowerName:'王芳',project:'皮肤渗透性测试',list:[{name:'1,2-己二醇',spec:'98% 500mL',qty:'10 mL'}],status:'approved',createTime:'2026-09-18 14:30'},
-      {id:'BR2026091503',borrowerId:'u5',borrowerName:'李明',project:'纳米纤维支架制备',list:[{name:'1,4-丁二醇',spec:'99% 500mL',qty:'50 mL'}],status:'approved',createTime:'2026-09-15 10:20'},
-      {id:'BR2026091004',borrowerId:'u4',borrowerName:'张雨欣',project:'蛋白质二级结构分析',list:[{name:'聚乙二醇400',spec:'分析纯 500mL',qty:'30 mL'}],status:'approved',createTime:'2026-09-10 11:00'},
-      {id:'BR2026090805',borrowerId:'u6',borrowerName:'王芳',project:'细胞培养与传代',list:[{name:'1,2-丁二醇',spec:'99% 500mL',qty:'15 mL'}],status:'approved',createTime:'2026-09-08 16:45'}
+      {id:'BR2026092001',borrowerId:'u4',borrowerName:'张雨欣',project:'二醇类衍生物合成',list:[{name:'1,3-丙二醇',spec:'99% 1L',qty:'25 mL'}],status:'approved',cat:'试剂',createTime:'2026-09-20 09:15'},
+      {id:'BR2026091802',borrowerId:'u6',borrowerName:'王芳',project:'皮肤渗透性测试',list:[{name:'1,2-己二醇',spec:'98% 500mL',qty:'10 mL'}],status:'approved',cat:'试剂',createTime:'2026-09-18 14:30'},
+      {id:'BR2026091503',borrowerId:'u5',borrowerName:'李明',project:'纳米纤维支架制备',list:[{name:'1,4-丁二醇',spec:'99% 500mL',qty:'50 mL'}],status:'approved',cat:'试剂',createTime:'2026-09-15 10:20'},
+      {id:'BR2026091004',borrowerId:'u4',borrowerName:'张雨欣',project:'蛋白质二级结构分析',list:[{name:'聚乙二醇400',spec:'分析纯 500mL',qty:'30 mL'}],status:'approved',cat:'试剂',createTime:'2026-09-10 11:00'},
+      {id:'BR2026090805',borrowerId:'u6',borrowerName:'王芳',project:'细胞培养与传代',list:[{name:'1,2-丁二醇',spec:'99% 500mL',qty:'15 mL'}],status:'approved',cat:'试剂',createTime:'2026-09-08 16:45'}
     ],
     handovers:[],
     repairs:[],
@@ -451,7 +463,7 @@ var NAV={
   manager:[['ledger','台账总览'],['useDash','仪器使用分析'],['waste','危废记录'],['repair','报修工单'],['logs','监控日志']],
   hazmat:[['redLedger','红色等级台账'],['handover','双人收发记录']],
   engineer:[['equip','设备台账'],['repairList','报修工单']],
-  borrower:[['reserve','仪器预约'],['apply','试剂借用'],['records','借用记录']]
+  borrower:[['reserve','仪器'],['apply','试剂'],['consumable','耗材'],['records','记录']]
 };
 function renderShell(){
   var nav=NAV[cur.role];
@@ -538,6 +550,7 @@ function renderPage(t){
   }else if(cur.role==='borrower'){
     if(t==='reserve')el.innerHTML=vReserve();
     else if(t==='apply')el.innerHTML=vApply();
+    else if(t==='consumable')el.innerHTML=vConsumable();
     else el.innerHTML=vRecords();
   }
 }
@@ -601,8 +614,8 @@ function openItemDetail(id){
   bs.sort(function(a,b){return a.createTime>b.createTime?-1:1;});
   showModal(head+
     '<div class="form-section"><h4>借用记录明细</h4>'+
-    (bs.length?'<table><thead><tr><th>单号</th><th>借用人</th><th>项目</th><th>数量</th><th>拟用区间</th><th>状态</th></tr></thead><tbody>'+
-      bs.map(function(b){return '<tr'+(b.status==='active'&&diffDay(b.end)>0?' class="row-overdue"':'')+'><td>'+esc(b.id)+'</td><td>'+esc(b.borrowerName)+'</td><td>'+esc(b.project)+'</td><td>'+esc(b.list[0].qty)+'</td><td>'+b.start+' ~ '+b.end+'</td><td>'+bPill(b)+'</td></tr>';}).join('')+
+    (bs.length?'<table><thead><tr><th>单号</th><th>借用人</th><th>项目</th><th>数量</th><th>时间</th><th>状态</th></tr></thead><tbody>'+
+      bs.map(function(b){return '<tr'+(b.status==='active'&&diffDay(b.end)>0?' class="row-overdue"':'')+'><td>'+esc(b.id)+'</td><td>'+esc(b.borrowerName)+'</td><td>'+esc(b.project)+'</td><td>'+esc(b.list[0].qty)+'</td><td>'+(b.start?(b.start+' ~ '+b.end):esc(b.createTime||'-'))+'</td><td>'+bPill(b)+'</td></tr>';}).join('')+
       '</tbody></table>':'<div class="muted" style="padding:14px;text-align:center;">该物品暂无借用记录</div>')+'</div>',
     can());
 }
@@ -1093,13 +1106,13 @@ function openUsageDashboard(days){
    D. 借用人
 ===================================================== */
 function vApply(){
-  return '<div class="card"><h2>试剂/耗材目录</h2><div class="sub">搜索试剂 → 选择数量（0.1 mL 步进） → 确认取用</div>'+
+  return '<div class="card"><h2>试剂目录</h2><div class="sub">搜索试剂 → 选择数量（0.1 mL 步进） → 确认取用</div>'+
   '<div class="toolbar"><input id="ap_kw" placeholder="输入试剂名搜索…" onkeyup="apSearch()" style="width:320px;"></div><div id="ap_list"></div><div id="ap_form"></div>';
 }
 function apSearch(){
   var kw=document.getElementById('ap_kw').value.trim().toLowerCase();
   var box=document.getElementById('ap_list');if(!kw){box.innerHTML='';return;}
-  var hits=db.items.filter(function(i){return i.cat!=='仪器'&&(i.name+i.spec).toLowerCase().indexOf(kw)>=0;});
+  var hits=db.items.filter(function(i){return i.cat==='试剂'&&(i.name+i.spec).toLowerCase().indexOf(kw)>=0;});
   if(!hits.length){box.innerHTML='<div class="muted" style="padding:18px;text-align:center;">无匹配物品</div>';return;}
   box.innerHTML='<table><thead><tr><th>编号</th><th>名称</th><th>风险</th><th>可用量</th><th>剩余量</th><th></th></tr></thead><tbody>'+
     hits.map(function(i){
@@ -1174,16 +1187,66 @@ function submitApply(id){
   if(!proj){toast('请填写使用项目','#e74c3c');return;}
   it.stock=Math.max(0,Math.round((it.stock-q)*10)/10);
   var bid='BR'+today().replace(/-/g,'')+Math.floor(Math.random()*900+100);
-  db.borrows.unshift({id:bid,borrowerId:cur.id,borrowerName:cur.name,project:proj,list:[{name:it.name,spec:it.spec,qty:q+' '+it.unit}],status:'approved',createTime:dtStr()});
+  db.borrows.unshift({id:bid,borrowerId:cur.id,borrowerName:cur.name,project:proj,list:[{name:it.name,spec:it.spec,qty:q+' '+it.unit}],status:'approved',cat:'试剂',createTime:dtStr()});
   logAct('取用：'+it.name+' '+q+' '+it.unit+'（项目：'+proj+'）');
   saveDB();toast('取用成功 ✓');document.getElementById('ap_form').innerHTML='';_sel=null;
 }
+/* ---- 耗材：目录 + 条形图 + 简化取用 ---- */
+function vConsumable(){
+  var cons=db.items.filter(function(i){return i.cat==='耗材';});
+  var lowCons=cons.filter(function(c){return c.stock<=(c.minStock||0)&&c.minStock>0&&c.status!=='报废';});
+  var lowHtml=lowCons.length?'<div class="lowstock-banner">低库存预警：'+lowCons.map(function(c){return esc(c.name)+' 剩'+c.stock+c.unit;}).join('；')+'</div>':'';
+  return lowHtml+
+    '<div class="card"><h2>耗材目录</h2><div class="sub">选择耗材 → 输入数量 → 确认取用（直接消耗，无需归还）</div>'+
+    '<div class="toolbar"><input id="hc_kw" placeholder="输入耗材名搜索…" onkeyup="document.getElementById(\'hc_list\').innerHTML=hcTableHtml(this.value)" style="width:320px;"></div>'+
+    '<div id="hc_list">'+hcTableHtml('')+'</div></div>';
+}
+function hcTableHtml(kw){
+  kw=(kw||'').toLowerCase();
+  var cons=db.items.filter(function(i){return i.cat==='耗材';});
+  if(kw)cons=cons.filter(function(i){return (i.name+i.spec+i.loc).toLowerCase().indexOf(kw)>=0;});
+  if(!cons.length)return '<div class="muted" style="padding:18px;text-align:center;">无匹配耗材</div>';
+  return '<table><thead><tr><th>编号</th><th>名称</th><th>可用量</th><th>剩余量</th><th></th></tr></thead><tbody>'+
+    cons.map(function(i){
+      var mx=i.maxStock||i.stock||1;
+      var pct=Math.round(i.stock/mx*100);
+      var barCls=pct<20?'danger':(pct<50?'warn':'');
+      var low=i.stock<=(i.minStock||0)&&i.minStock>0&&i.status!=='报废';
+      return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span><br><span class="muted">'+esc(i.spec)+'</span>'+(low?' <span class="lg-tag">缺</span>':'')+'</td><td>'+i.stock+' '+esc(i.unit)+'</td><td><div class="bar '+barCls+'" style="width:70px;"><i style="width:'+pct+'%;"></i></div><span class="pct">'+pct+'%</span></td><td><button class="btn mini primary" onclick="openConsume(\''+i.id+'\')">取用</button></td></tr>';
+    }).join('')+'</tbody></table>';
+}
+function openConsume(id){
+  var it=itemBy(id);
+  var low=it.stock<=(it.minStock||0)&&it.minStock>0&&it.status!=='报废';
+  showModal('<h3>耗材取用 — '+esc(it.name)+'</h3><div class="frm">'+
+    '<div class="sig-row"><b>编号：</b>'+esc(it.id)+'</div>'+
+    '<div class="sig-row"><b>规格：</b>'+esc(it.spec)+'</div>'+
+    '<div class="sig-row"><b>存放位置：</b>'+esc(it.loc)+'</div>'+
+    '<div class="sig-row"><b>当前库存：</b>'+(low?'<span style="color:#e74c3c;">':'')+it.stock+' '+esc(it.unit)+(low?'（低于阈值'+it.minStock+'）</span>':'')+'</div>'+
+    '<label>取用数量 <span class="req">*</span>　<span class="muted">单位：'+esc(it.unit)+'</span></label><input id="hc_qty" type="number" min="1" max="'+it.stock+'" value="1" style="width:120px;">'+
+    '<label>使用项目</label><input id="hc_proj" placeholder="课题名称（选填）">'+
+    '</div>',
+    '<button class="btn primary" onclick="confirmConsume(\''+id+'\')">确认取用</button>'+can());
+}
+function confirmConsume(id){
+  var it=itemBy(id);
+  var q=parseFloat(document.getElementById('hc_qty').value);
+  if(isNaN(q)||q<=0){toast('请输入取用数量','#e74c3c');return;}
+  if(q>it.stock){toast('库存不足（当前'+it.stock+it.unit+'）','#e74c3c');return;}
+  var proj=document.getElementById('hc_proj').value.trim();
+  it.stock=Math.max(0,Math.round((it.stock-q)*100)/100);
+  var bid='BR'+today().replace(/-/g,'')+Math.floor(Math.random()*900+100);
+  db.borrows.unshift({id:bid,borrowerId:cur.id,borrowerName:cur.name,project:proj||'日常使用',list:[{name:it.name,spec:it.spec,qty:q+' '+it.unit}],status:'returned',cat:'耗材',createTime:dtStr()});
+  logAct('取用耗材：'+it.name+' '+q+' '+it.unit+(proj?'（项目：'+proj+'）':''));
+  saveDB();closeModal();renderShell();toast('取用成功 ✓');
+}
 var _recFilter='all';
 function vRecords(){
-  var chips=[['all','全部'],['res','仪器预约'],['bor','试剂借用']];
+  var chips=[['all','全部'],['res','仪器预约'],['bor','试剂取用'],['con','耗材取用']];
   var rows=[];
-  if(_recFilter!=='bor')db.res.forEach(function(r){rows.push({t:'res',d:r});});
-  if(_recFilter!=='res')db.borrows.forEach(function(b){rows.push({t:'bor',d:b});});
+  if(_recFilter!=='bor'&&_recFilter!=='con')db.res.forEach(function(r){rows.push({t:'res',d:r});});
+  if(_recFilter!=='res'&&_recFilter!=='con')db.borrows.filter(function(b){return b.cat!=='耗材';}).forEach(function(b){rows.push({t:'bor',d:b});});
+  if(_recFilter!=='res'&&_recFilter!=='bor')db.borrows.filter(function(b){return b.cat==='耗材';}).forEach(function(b){rows.push({t:'con',d:b});});
   rows.sort(function(a,b){var ta=a.t==='res'?a.d.applyTime:a.d.createTime,tb=b.t==='res'?b.d.applyTime:b.d.createTime;return ta>tb?-1:(ta<tb?1:0);});
   return '<div class="card"><h2>借用 / 预约记录</h2><div class="sub">全部记录（含他人）· 我的单据蓝色高亮 · 逾期红色</div>'+
   '<div class="toolbar">'+chips.map(function(c){return '<button class="btn '+(_recFilter===c[0]?'primary':'')+'" style="padding:5px 14px;" onclick="_recFilter=\''+c[0]+'\';renderPage(\'records\')">'+c[1]+'</button>';}).join('')+'</div>'+
@@ -1193,6 +1256,10 @@ function vRecords(){
       var r=x.d,mine=r.userId===cur.id,od=r.status==='using'&&r.date<today();
       return '<tr'+(mine?' style="background:#f0f7ff;"':'')+(od?' class="row-overdue"':'')+'><td>'+esc(r.id)+'</td><td><span class="tag borrowing">仪器预约</span></td><td>'+esc(r.userName)+(mine?' (我)':'')+'</td><td>'+esc(r.devName)+'</td><td>'+esc(r.project)+'</td><td>'+r.date+'<br><span class="muted">'+esc(r.slots.join('、'))+'</span></td><td>'+rPill(r)+'</td><td><button class="btn mini" onclick="openResForm(\''+r.id+'\')">查看预约表</button></td></tr>';
     }
+    if(x.t==='con'){
+      var c=x.d,mine=c.borrowerId===cur.id;
+      return '<tr'+(mine?' style="background:#f0f7ff;"':'')+'><td>'+esc(c.id)+'</td><td><span class="tag green">耗材取用</span></td><td>'+esc(c.borrowerName)+(mine?' (我)':'')+'</td><td>'+esc(c.list[0].name)+' '+esc(c.list[0].qty)+'</td><td>'+esc(c.project)+'</td><td>'+esc(c.createTime||'-')+'</td><td><span class="pill returned">已消耗</span></td><td>-</td></tr>';
+    }
     var b=x.d,mine=b.borrowerId===cur.id;
     return '<tr'+(mine?' style="background:#f0f7ff;"':'')+'><td>'+esc(b.id)+'</td><td><span class="tag blue">试剂取用</span></td><td>'+esc(b.borrowerName)+(mine?' (我)':'')+'</td><td>'+esc(b.list[0].name)+' '+esc(b.list[0].qty)+'</td><td>'+esc(b.project)+'</td><td>'+(b.start?(b.start+' ~ '+b.end):(b.createTime||''))+'</td><td>'+bPill(b)+'</td><td>-</td></tr>';
   }).join('')+'</tbody></table></div>';
@@ -1200,5 +1267,6 @@ function vRecords(){
 
 route();
 </script>
-</body>
-</html>
+
+
+</body></html>
