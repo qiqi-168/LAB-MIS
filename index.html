@@ -224,7 +224,7 @@ tr:hover td{background:#f7fafd;}
 /* =====================================================
    Lab-MIS · 数据层(localStorage)
 ===================================================== */
-var DBKEY='labmis_db_v5';
+var DBKEY='labmis_db_v6';
 function today(){var d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());}
 function p2(n){return n<10?'0'+n:''+n;}
 function nowStr(){var d=new Date();return p2(d.getMonth()+1)+'-'+p2(d.getDate())+' '+p2(d.getHours())+':'+p2(d.getMinutes());}
@@ -281,17 +281,17 @@ function seed(){
     ],
     items:[
       /* — 美谷大型仪器（Excel 11 台） — */
-      {id:'YQ-001',name:'高效液相色谱仪',cat:'仪器',spec:'1260 Infinity',maker:'安捷伦',price:185000,purchaseDate:'2023-05-10',expire:'2027-05-10',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋201室',risk:'blue'},
-      {id:'YQ-002',name:'电感耦合等离子质谱仪',cat:'仪器',spec:'iCAP RQ',maker:'赛默飞',price:320000,purchaseDate:'2022-03-01',expire:'2027-03-01',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋202室',risk:'blue'},
-      {id:'YQ-003',name:'气相色谱仪',cat:'仪器',spec:'GC-2010 Plus',maker:'岛津',price:120000,purchaseDate:'2021-06-15',expire:'2026-06-15',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋203室',risk:'blue'},
-      {id:'YQ-004',name:'气相色谱-质谱联用仪',cat:'仪器',spec:'Trace 1300-ISQ LT',maker:'赛默飞',price:450000,purchaseDate:'2022-08-20',expire:'2027-08-20',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋204室',risk:'blue'},
-      {id:'YQ-005',name:'凝胶成像系统',cat:'仪器',spec:'Gel Doc XR+',maker:'伯乐',price:89000,purchaseDate:'2023-01-10',expire:'2028-01-10',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋101室',risk:'blue'},
-      {id:'YQ-006',name:'PCR扩增仪',cat:'仪器',spec:'—',maker:'赛默飞',price:52000,purchaseDate:'2021-03-15',expire:'2026-03-14',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋102室',risk:'blue'},
-      {id:'YQ-007',name:'流式细胞仪',cat:'仪器',spec:'Accuri C6 Plus',maker:'碧迪',price:280000,purchaseDate:'2022-11-05',expire:'2027-11-05',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋205室',risk:'blue'},
-      {id:'YQ-008',name:'超微量分光光度计',cat:'仪器',spec:'—',maker:'赛默飞',price:45000,purchaseDate:'2023-04-01',expire:'2028-04-01',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋206室',risk:'blue'},
-      {id:'YQ-009',name:'面部皮肤图像分析仪',cat:'仪器',spec:'VISIA-CR',maker:'Canfield',price:350000,purchaseDate:'2023-02-28',expire:'2028-02-28',status:'正常',stock:1,unit:'台',minStock:0,loc:'C栋301室',risk:'blue'},
-      {id:'YQ-010',name:'多功能皮肤测试仪',cat:'仪器',spec:'MPA580',maker:'CK',price:220000,purchaseDate:'2023-02-28',expire:'2028-02-28',status:'正常',stock:1,unit:'台',minStock:0,loc:'C栋302室',risk:'blue'},
-      {id:'YQ-011',name:'体系稳定性光分散分析系统（粒径仪）',cat:'仪器',spec:'—',maker:'博克海文',price:180000,purchaseDate:'2022-05-10',expire:'2027-05-10',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋207室',risk:'blue'},
+      {id:'YQ-001',name:'高效液相色谱仪',cat:'仪器',subCat:'色谱',spec:'1260 Infinity',maker:'安捷伦',price:185000,purchaseDate:'2023-05-10',expire:'2027-05-10',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋201室',risk:'blue'},
+      {id:'YQ-002',name:'电感耦合等离子质谱仪',cat:'仪器',subCat:'光谱',spec:'iCAP RQ',maker:'赛默飞',price:320000,purchaseDate:'2022-03-01',expire:'2027-03-01',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋202室',risk:'blue'},
+      {id:'YQ-003',name:'气相色谱仪',cat:'仪器',subCat:'色谱',spec:'GC-2010 Plus',maker:'岛津',price:120000,purchaseDate:'2021-06-15',expire:'2026-06-15',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋203室',risk:'blue'},
+      {id:'YQ-004',name:'气相色谱-质谱联用仪',cat:'仪器',subCat:'色谱',spec:'Trace 1300-ISQ LT',maker:'赛默飞',price:450000,purchaseDate:'2022-08-20',expire:'2027-08-20',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋204室',risk:'blue'},
+      {id:'YQ-005',name:'凝胶成像系统',cat:'仪器',subCat:'细胞',spec:'Gel Doc XR+',maker:'伯乐',price:89000,purchaseDate:'2023-01-10',expire:'2028-01-10',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋101室',risk:'blue'},
+      {id:'YQ-006',name:'PCR扩增仪',cat:'仪器',subCat:'细胞',spec:'—',maker:'赛默飞',price:52000,purchaseDate:'2021-03-15',expire:'2026-03-14',status:'正常',stock:1,unit:'台',minStock:0,loc:'B栋102室',risk:'blue'},
+      {id:'YQ-007',name:'流式细胞仪',cat:'仪器',subCat:'细胞',spec:'Accuri C6 Plus',maker:'碧迪',price:280000,purchaseDate:'2022-11-05',expire:'2027-11-05',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋205室',risk:'blue'},
+      {id:'YQ-008',name:'超微量分光光度计',cat:'仪器',subCat:'光谱',spec:'—',maker:'赛默飞',price:45000,purchaseDate:'2023-04-01',expire:'2028-04-01',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋206室',risk:'blue'},
+      {id:'YQ-009',name:'面部皮肤图像分析仪',cat:'仪器',subCat:'显微镜',spec:'VISIA-CR',maker:'Canfield',price:350000,purchaseDate:'2023-02-28',expire:'2028-02-28',status:'正常',stock:1,unit:'台',minStock:0,loc:'C栋301室',risk:'blue'},
+      {id:'YQ-010',name:'多功能皮肤测试仪',cat:'仪器',subCat:'光谱',spec:'MPA580',maker:'CK',price:220000,purchaseDate:'2023-02-28',expire:'2028-02-28',status:'正常',stock:1,unit:'台',minStock:0,loc:'C栋302室',risk:'blue'},
+      {id:'YQ-011',name:'体系稳定性光分散分析系统（粒径仪）',cat:'仪器',subCat:'激光',spec:'—',maker:'博克海文',price:180000,purchaseDate:'2022-05-10',expire:'2027-05-10',status:'正常',stock:1,unit:'台',minStock:0,loc:'A栋207室',risk:'blue'},
       /* — 试剂：二醇系列 11 种 — */
       {id:'SJ-201',name:'1-（3,4-二甲氧基苯基）-4,4-二甲基-1,3-戊二酮',cat:'试剂',spec:'分析纯 500mL/瓶',maker:'阿拉丁',price:180,purchaseDate:'2025-09-01',expire:'2027-09-01',status:'正常',stock:500,unit:'mL',minStock:80,loc:'试剂柜A-1层',risk:'blue'},
       {id:'SJ-202',name:'1,10-癸二醇',cat:'试剂',spec:'99% 500g',maker:'国药',price:120,purchaseDate:'2025-08-15',expire:'2027-08-15',status:'正常',stock:500,unit:'g',minStock:100,loc:'试剂柜A-2层',risk:'blue'},
@@ -361,6 +361,19 @@ var navTab={manager:'ledger',hazmat:'redLedger',engineer:'equip',borrower:'reser
 var noticeTimer=null;
 
 var RISK_TXT={red:'红(最高级)',yellow:'黄(中高级)',blue:'蓝(普通级)'};
+var INSTR_CATS=['光谱','显微镜','细胞','激光','色谱'];
+var INSTR_CAT_COLORS={
+  '光谱':   {bg:'#e8d5f2',fg:'#7b2daf',border:'#c39bd3'},
+  '显微镜': {bg:'#d6eaf8',fg:'#1b4f72',border:'#85c1e9'},
+  '细胞':   {bg:'#d5f5e3',fg:'#1e8449',border:'#82e0aa'},
+  '激光':   {bg:'#fadbd8',fg:'#922b21',border:'#f1948a'},
+  '色谱':   {bg:'#fdebd0',fg:'#9c640c',border:'#f5b041'}
+};
+function subCatTag(sc){
+  if(!sc)return '';
+  var c=INSTR_CAT_COLORS[sc]||{bg:'#eaecee',fg:'#566573',border:'#bdc3c7'};
+  return '<span class="tag" style="background:'+c.bg+';color:'+c.fg+';border:1px solid '+c.border+';">'+esc(sc)+'</span>';
+}
 var PPE_MAP={
   '浓硫酸':'需佩戴防酸碱手套及面罩，请确认已领取相应PPE。倾倒时酸入水并缓慢搅拌。',
   '盐酸':'需佩戴防酸碱手套及护目镜，在通风橱内操作，避免酸雾吸入。',
@@ -567,7 +580,7 @@ function openItemDetail(id){
   var head='<h3>物品详情 — '+esc(it.name)+'</h3>'+
     '<div class="form-section"><h4>基础信息</h4>'+
     '<div class="sig-row"><b>编号：</b>'+esc(it.id)+'</div>'+
-    '<div class="sig-row"><b>分类：</b>'+esc(it.cat)+'　　<b>规格型号：</b>'+esc(it.spec)+'</div>'+
+    '<div class="sig-row"><b>分类：</b>'+esc(it.cat)+(it.cat==='仪器'&&it.subCat?'　'+subCatTag(it.subCat):'')+'　　<b>规格型号：</b>'+esc(it.spec)+'</div>'+
     '<div class="sig-row"><b>生产厂家/批号：</b>'+esc(it.maker)+'</div>'+
     '<div class="sig-row"><b>单价：</b>¥'+it.price+'　　<b>购入日期：</b>'+esc(it.purchaseDate||'-')+'</div>'+
     '<div class="sig-row"><b>有效期/检定周期：</b>'+(it.expire||'-')+'　　<b>存放位置：</b>'+esc(it.loc)+'</div>'+
@@ -636,21 +649,35 @@ function lowBanner(cat){
 function vLedger(cat){
   _ledgerCat=cat||'仪器';
   var routeKey=cat==='仪器'?'ledger_eq':(cat==='试剂'?'ledger_re':'ledger_ma');
+  var isInstr=cat==='仪器';
   var list=db.items.filter(function(i){
     if(i.cat!==cat)return false;
     if(lf.risk&&i.risk!==lf.risk)return false;
+    if(isInstr&&lf.subCat&&i.subCat!==lf.subCat)return false;
     if(lf.kw&&(i.name+i.id+i.spec+i.maker+i.loc).toLowerCase().indexOf(lf.kw.toLowerCase())<0)return false;
     return true;
   });
   var catTotal=db.items.filter(function(i){return i.cat===cat;}).length;
+  var subCatFilter=lf.subCat||'';
+  var subCatBar='';
+  if(isInstr){
+    subCatBar='<div class="toolbar" style="margin-top:8px;flex-wrap:wrap;">'+
+      INSTR_CATS.map(function(sc){
+        var cnt=db.items.filter(function(i){return i.cat==='仪器'&&i.subCat===sc;}).length;
+        return '<button class="btn '+(subCatFilter===sc?'primary':'')+'" style="padding:5px 12px;margin-right:6px;margin-bottom:4px;" onclick="lf.subCat='+(subCatFilter===sc?"''":"'"+sc+"'")+';renderPage(\''+routeKey+'\')">'+subCatTag(sc)+' <span class="muted">'+cnt+'台</span></button>';
+      }).join('')+
+      (subCatFilter?'<button class="btn" style="padding:5px 12px;margin-bottom:4px;" onclick="lf.subCat=\'\';renderPage(\''+routeKey+'\')">清除筛选</button>':'')+
+      '</div>';
+  }
   return lowBanner(cat)+
   '<div class="card"><h2>'+cat+'台账</h2><div class="sub">共 '+catTotal+' 条'+cat+'记录 · 点击物品名称查看借用明细</div>'+
   '<div class="toolbar"><input id="lf_kw" placeholder="搜索编号/名称/型号/厂家/位置…" value="'+esc(lf.kw)+'" onkeyup="lf.kw=this.value;renderPage(\''+routeKey+'\')" style="width:260px;">'+
   '<select onchange="lf.risk=this.value;renderPage(\''+routeKey+'\')" style="width:140px;"><option value="">全部风险</option>'+['red','yellow','blue'].map(function(r){return '<option value="'+r+'"'+(lf.risk===r?' selected':'')+'>'+RISK_TXT[r]+'</option>';}).join('')+'</select>'+
   '<div class="grow"></div><button class="btn primary big" onclick="openItemWizard(\''+cat+'\')">＋ 新增'+cat+'</button></div>'+
-  '<table><thead><tr><th>编号</th><th>名称</th><th>规格</th><th>风险</th><th>库存</th><th>实时状态</th><th>位置</th><th>有效期</th><th>操作</th></tr></thead><tbody>'+
+  subCatBar+
+  '<table><thead><tr><th>编号</th><th>名称'+(isInstr?'/分类':'')+'</th><th>规格</th><th>风险</th><th>库存</th><th>实时状态</th><th>位置</th><th>有效期</th><th>操作</th></tr></thead><tbody>'+
   list.map(function(i){var low=i.stock<=i.minStock&&i.minStock>0&&i.status!=='报废';
-    return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span>'+(low?' <span class="lg-tag">缺</span>':'')+'</td><td>'+esc(i.spec)+'</td><td>'+riskTag(i.risk)+'</td>'+
+    return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span>'+(low?' <span class="lg-tag">缺</span>':'')+(isInstr&&i.subCat?'<br>'+subCatTag(i.subCat):'')+'</td><td>'+esc(i.spec)+'</td><td>'+riskTag(i.risk)+'</td>'+
       '<td>'+i.stock+' '+esc(i.unit)+'</td><td>'+stTag(dispStatus(i))+'</td><td>'+esc(i.loc)+'</td><td>'+(i.expire||'-')+'</td>'+
       '<td style="white-space:nowrap;"><button class="btn mini" onclick="openEditItem(\''+i.id+'\')">编辑</button><button class="btn mini" onclick="openChangeStatus(\''+i.id+'\')">状态变更</button></td></tr>';
   }).join('')+'</tbody></table></div>';
@@ -659,8 +686,8 @@ function vLedger(cat){
 var wizEdit=null;
 function itemForm(pf,it){it=it||{};
   return '<div class="frm"><div class="row2"><div><label>物品名称 <span class="req">*</span></label><input id="'+pf+'_name" value="'+esc(it.name||'')+'"></div><div><label>自编号 <span class="req">*</span></label><input id="'+pf+'_id" value="'+esc(it.id||suggestId())+'"></div></div>'+
-  '<div class="row2"><div><label>分类 <span class="req">*</span></label><select id="'+pf+'_cat">'+['仪器','试剂','耗材','气体'].map(function(c){return '<option'+(it.cat===c?' selected':'')+'>'+c+'</option>';}).join('')+'</select></div><div><label>规格型号</label><input id="'+pf+'_spec" value="'+esc(it.spec||'')+'"></div></div>'+
-  '<div class="row2"><div><label>生产厂家/批号</label><input id="'+pf+'_maker" value="'+esc(it.maker||'')+'"></div><div><label>单价(元)</label><input id="'+pf+'_price" type="number" value="'+(it.price!==undefined?it.price:0)+'"></div></div>'+
+  '<div class="row2"><div><label>分类 <span class="req">*</span></label><select id="'+pf+'_cat" onchange="catChanged(\''+pf+'\')">'+['仪器','试剂','耗材','气体'].map(function(c){return '<option'+(it.cat===c?' selected':'')+'>'+c+'</option>';}).join('')+'</select></div><div id="'+pf+'_subcat_row"><label>仪器子分类</label><select id="'+pf+'_subcat">'+INSTR_CATS.map(function(c){return '<option'+(it.subCat===c?' selected':'')+'>'+c+'</option>';}).join('')+'</select></div></div>'+
+  '<div class="row2"><div><label>规格型号</label><input id="'+pf+'_spec" value="'+esc(it.spec||'')+'"></div><div><label>生产厂家/批号</label><input id="'+pf+'_maker" value="'+esc(it.maker||'')+'"></div></div>'+
   '<div class="row2"><div><label>库存量 <span class="req">*</span></label><input id="'+pf+'_stock" type="number" value="'+(it.stock!==undefined?it.stock:1)+'" min="0"></div><div><label>计量单位</label><input id="'+pf+'_unit" value="'+esc(it.unit||'个')+'"></div></div>'+
   '<div class="row2"><div><label>低库存阈值</label><input id="'+pf+'_min" type="number" value="'+(it.minStock!==undefined?it.minStock:0)+'" min="0"></div><div><label>存放位置</label><input id="'+pf+'_loc" value="'+esc(it.loc||'')+'"></div></div>'+
   '<div class="row2"><div><label>购入日期</label><input id="'+pf+'_pd" type="date" value="'+esc(it.purchaseDate||'')+'"></div><div><label>有效期/检定周期</label><input id="'+pf+'_exp" value="'+esc(it.expire||'')+'" placeholder="YYYY-MM-DD"></div></div>'+
@@ -669,15 +696,36 @@ function itemForm(pf,it){it=it||{};
 }
 function suggestId(){return 'NEW-'+p2(db.items.length+1)+Math.floor(Math.random()*900+100);}
 function riskChanged(pf){document.getElementById(pf+'_dual').style.display=document.getElementById(pf+'_risk').value==='red'?'block':'none';}
-function readItem(pf){return{name:document.getElementById(pf+'_name').value.trim(),id:document.getElementById(pf+'_id').value.trim(),cat:document.getElementById(pf+'_cat').value,spec:document.getElementById(pf+'_spec').value.trim(),maker:document.getElementById(pf+'_maker').value.trim(),price:parseFloat(document.getElementById(pf+'_price').value)||0,stock:parseFloat(document.getElementById(pf+'_stock').value)||0,unit:document.getElementById(pf+'_unit').value.trim()||'个',minStock:parseFloat(document.getElementById(pf+'_min').value)||0,loc:document.getElementById(pf+'_loc').value.trim(),purchaseDate:document.getElementById(pf+'_pd').value,expire:document.getElementById(pf+'_exp').value.trim(),risk:document.getElementById(pf+'_risk').value,checker:document.getElementById(pf+'_checker')?document.getElementById(pf+'_checker').value.trim():''};}
+function catChanged(pf){var isInstr=document.getElementById(pf+'_cat').value==='仪器';document.getElementById(pf+'_subcat_row').style.display=isInstr?'block':'none';}
+function readItem(pf){
+  var cat=document.getElementById(pf+'_cat').value;
+  var subCatEl=document.getElementById(pf+'_subcat');
+  return{
+    name:document.getElementById(pf+'_name').value.trim(),
+    id:document.getElementById(pf+'_id').value.trim(),
+    cat:cat,
+    subCat:cat==='仪器'?(subCatEl?subCatEl.value:''):'',
+    spec:document.getElementById(pf+'_spec').value.trim(),
+    maker:document.getElementById(pf+'_maker').value.trim(),
+    price:parseFloat(document.getElementById(pf+'_price').value)||0,
+    stock:parseFloat(document.getElementById(pf+'_stock').value)||0,
+    unit:document.getElementById(pf+'_unit').value.trim()||'个',
+    minStock:parseFloat(document.getElementById(pf+'_min').value)||0,
+    loc:document.getElementById(pf+'_loc').value.trim(),
+    purchaseDate:document.getElementById(pf+'_pd').value,
+    expire:document.getElementById(pf+'_exp').value.trim(),
+    risk:document.getElementById(pf+'_risk').value,
+    checker:document.getElementById(pf+'_checker')?document.getElementById(pf+'_checker').value.trim():''
+  };
+}
 function openItemWizard(defCat){
   wizEdit=null;
-  var dummy={cat:defCat||_ledgerCat||'仪器'};
+  var dummy={cat:defCat||_ledgerCat||'仪器',subCat:INSTR_CATS[0]};
   showModal('<h3>新增物品 · 引导式填单</h3>'+itemForm('nw',dummy),'<button class="btn primary" onclick="saveNewItem()">确认入库</button>'+can());
-  riskChanged('nw');
+  riskChanged('nw');catChanged('nw');
 }
-function saveNewItem(){var it=readItem('nw');if(!it.name||!it.id){toast('请填写名称和编号','#e74c3c');return;}if(db.items.some(function(x){return x.id===it.id;})){toast('编号已存在','#e74c3c');return;}db.items.push({id:it.id,name:it.name,cat:it.cat,spec:it.spec,maker:it.maker,price:it.price,purchaseDate:it.purchaseDate,expire:it.expire,status:'正常',stock:it.stock,unit:it.unit,minStock:it.minStock,loc:it.loc,risk:it.risk});logAct('新增台账物品「'+it.id+' '+it.name+'」'+(it.risk==='red'?'，红色等级双人复核登记（复核人：'+it.checker+'）':''));saveDB();closeModal();renderShell();toast('物品已入台账');}
-function openEditItem(id){var it=itemBy(id);wizEdit=id;showModal('<h3>编辑物品 — '+esc(it.name)+'</h3>'+itemForm('nw',it),'<button class="btn primary" onclick="saveEditItem()">保存修改</button>'+can());riskChanged('nw');}
+function saveNewItem(){var it=readItem('nw');if(!it.name||!it.id){toast('请填写名称和编号','#e74c3c');return;}if(db.items.some(function(x){return x.id===it.id;})){toast('编号已存在','#e74c3c');return;}db.items.push({id:it.id,name:it.name,cat:it.cat,subCat:it.subCat,spec:it.spec,maker:it.maker,price:it.price,purchaseDate:it.purchaseDate,expire:it.expire,status:'正常',stock:it.stock,unit:it.unit,minStock:it.minStock,loc:it.loc,risk:it.risk});logAct('新增台账物品「'+it.id+' '+it.name+'」'+(it.risk==='red'?'，红色等级双人复核登记（复核人：'+it.checker+'）':''));saveDB();closeModal();renderShell();toast('物品已入台账');}
+function openEditItem(id){var it=itemBy(id);wizEdit=id;showModal('<h3>编辑物品 — '+esc(it.name)+'</h3>'+itemForm('nw',it),'<button class="btn primary" onclick="saveEditItem()">保存修改</button>'+can());riskChanged('nw');catChanged('nw');}
 function saveEditItem(){var it=readItem('nw');var i=db.items.findIndex(function(x){return x.id===wizEdit;});if(db.items.some(function(x,idx){return x.id===it.id&&idx!==i;})){toast('编号重复','#e74c3c');return;}db.items[i]=Object.assign({},db.items[i],it);logAct('编辑修改了「'+it.id+' '+it.name+'」');saveDB();closeModal();renderShell();toast('已保存并记入日志');}
 /* 状态变更（报废需照片） */
 var _scrapOk=false;
@@ -844,7 +892,7 @@ function vEquip(){
   return '<div class="card"><h2>设备台账</h2><div class="sub">大型精密仪器校准/报修/强制停用 · 点击仪器名称查看使用数据与预约明细</div>'+
   '<div class="toolbar"><div class="grow"></div><button class="btn primary" onclick="openUsageDashboard(30)">仪器使用分析</button></div>'+
   '<table><thead><tr><th>编号</th><th>名称</th><th>规格</th><th>购入日</th><th>检定周期</th><th>实时状态</th><th>操作</th></tr></thead><tbody>'+
-  eq.map(function(i){return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span></td><td>'+esc(i.spec)+'</td><td>'+esc(i.purchaseDate||'-')+'</td><td>'+(i.expire||'-')+'</td><td>'+stTag(dispStatus(i))+'</td><td><button class="btn mini" onclick="engRepair(\''+i.id+'\')">报修</button><button class="btn mini danger" onclick="engStop(\''+i.id+'\')">强制停用</button></td></tr>';}).join('')+'</tbody></table></div>';
+  eq.map(function(i){return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span>'+(i.subCat?'<br>'+subCatTag(i.subCat):'')+'</td><td>'+esc(i.spec)+'</td><td>'+esc(i.purchaseDate||'-')+'</td><td>'+(i.expire||'-')+'</td><td>'+stTag(dispStatus(i))+'</td><td><button class="btn mini" onclick="engRepair(\''+i.id+'\')">报修</button><button class="btn mini danger" onclick="engStop(\''+i.id+'\')">强制停用</button></td></tr>';}).join('')+'</tbody></table></div>';
 }
 function engRepair(id){var it=itemBy(id);showModal('<h3>报修登记 — '+esc(it.name)+'</h3><div class="frm"><label>故障描述 *</label><textarea id="er_desc" rows="3"></textarea></div>','<button class="btn primary" onclick="saveEngRepair(\''+id+'\')">提交工单</button>'+can());}
 function saveEngRepair(id){var d=document.getElementById('er_desc').value.trim();if(!d){toast('请填写故障描述','#e74c3c');return;}var it=itemBy(id);db.repairs.unshift({id:'RP'+today().replace(/-/g,'')+Math.floor(Math.random()*90+10),dev:it.name+'('+it.id+')',desc:d,by:cur.name,time:dtStr(),st:'待处理',engineer:'',finishTime:''});logAct('提交报修工单：'+it.name+' — '+d);saveDB();closeModal();renderShell();toast('工单已提交');}
@@ -879,7 +927,7 @@ function rsSearch(){
   box.innerHTML='<table><thead><tr><th>编号</th><th>仪器</th><th>位置</th><th>实时状态</th><th>近30天利用率</th><th></th></tr></thead><tbody>'+
     hits.map(function(i){
       var u=null;st.list.forEach(function(x){if(x.id===i.id)u=x;});
-      return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span><br><span class="muted">'+esc(i.spec)+'</span></td><td>'+esc(i.loc)+'</td><td>'+stTag(dispStatus(i))+'</td><td><b>'+(u?u.util.toFixed(1):'0.0')+'%</b></td><td><button class="btn mini primary" onclick="pickRes(\''+i.id+'\')">预约</button></td></tr>';
+      return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span><br><span class="muted">'+esc(i.spec)+'</span>'+(i.subCat?'<br>'+subCatTag(i.subCat):'')+'</td><td>'+esc(i.loc)+'</td><td>'+stTag(dispStatus(i))+'</td><td><b>'+(u?u.util.toFixed(1):'0.0')+'%</b></td><td><button class="btn mini primary" onclick="pickRes(\''+i.id+'\')">预约</button></td></tr>';
     }).join('')+'</tbody></table>';
 }
 var _resDev=null,_resDate='',_resTimeIdx=14,_resProj='';
