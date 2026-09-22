@@ -461,7 +461,7 @@ function closeNotice(){clearInterval(noticeTimer);var ov=document.getElementById
 ===================================================== */
 function route(){if(!cur){renderLogin();return;}renderShell();}
 var NAV={
-  manager:[['ledger','台账总览'],['useDash','仪器使用分析'],['waste','危废记录'],['repair','报修工单'],['logs','监控日志']],
+  manager:[['ledger_eq','仪器台账'],['ledger_re','试剂台账'],['ledger_ma','耗材台账'],['useDash','仪器使用分析'],['waste','危废记录'],['repair','报修工单'],['logs','监控日志']],
   hazmat:[['redLedger','红色等级台账'],['handover','双人收发记录']],
   engineer:[['equip','设备台账'],['repairList','报修工单']],
   borrower:[['reserve','仪器'],['apply','试剂'],['consumable','耗材'],['records','记录']]
@@ -540,7 +540,9 @@ function savePwd(){
 function renderPage(t){
   var el=document.getElementById('pg');if(!el)return;
   if(cur.role==='manager'){
-    if(t==='ledger')el.innerHTML=vLedger();
+    if(t==='ledger_eq')el.innerHTML=vLedger('仪器');
+    else if(t==='ledger_re')el.innerHTML=vLedger('试剂');
+    else if(t==='ledger_ma')el.innerHTML=vLedger('耗材');
     else if(t==='useDash')el.innerHTML=vUseDash();
     else if(t==='waste')el.innerHTML=vWaste();
     else if(t==='repair')el.innerHTML=vRepairM();
@@ -625,25 +627,30 @@ function openItemDetail(id){
    A. 专职管理员
 ===================================================== */
 var lf={kw:'',risk:''};
-function lowBanner(){
-  var lows=db.items.filter(function(i){return i.status!=='报废'&&i.stock<=i.minStock&&i.minStock>0;});
+var _ledgerCat='仪器';
+function lowBanner(cat){
+  var lows=db.items.filter(function(i){return i.status!=='报废'&&i.stock<=i.minStock&&i.minStock>0&&(!cat||i.cat===cat);});
   if(!lows.length)return '';
   return '<div class="lowstock-banner">低库存预警：'+lows.map(function(i){return esc(i.name)+' 剩'+i.stock+i.unit+'（阈值'+i.minStock+i.unit+'）';}).join('；')+'</div>';
 }
-function vLedger(){
+function vLedger(cat){
+  _ledgerCat=cat||'仪器';
+  var routeKey=cat==='仪器'?'ledger_eq':(cat==='试剂'?'ledger_re':'ledger_ma');
   var list=db.items.filter(function(i){
+    if(i.cat!==cat)return false;
     if(lf.risk&&i.risk!==lf.risk)return false;
     if(lf.kw&&(i.name+i.id+i.spec+i.maker+i.loc).toLowerCase().indexOf(lf.kw.toLowerCase())<0)return false;
     return true;
   });
-  return lowBanner()+
-  '<div class="card"><h2>台账总览</h2><div class="sub">库存为核心数据库，全员只读实时更新 · 共 '+db.items.length+' 条 · 点击物品名称查看借用明细</div>'+
-  '<div class="toolbar"><input id="lf_kw" placeholder="搜索编号/名称/型号/厂家/位置…" value="'+esc(lf.kw)+'" onkeyup="lf.kw=this.value;renderPage(\'ledger\')" style="width:260px;">'+
-  '<select onchange="lf.risk=this.value;renderPage(\'ledger\')" style="width:140px;"><option value="">全部风险</option>'+['red','yellow','blue'].map(function(r){return '<option value="'+r+'"'+(lf.risk===r?' selected':'')+'>'+RISK_TXT[r]+'</option>';}).join('')+'</select>'+
-  '<div class="grow"></div><button class="btn primary big" onclick="openItemWizard()">＋ 新增物品</button></div>'+
-  '<table><thead><tr><th>编号</th><th>名称</th><th>分类</th><th>规格</th><th>风险</th><th>库存</th><th>实时状态</th><th>位置</th><th>有效期</th><th>操作</th></tr></thead><tbody>'+
+  var catTotal=db.items.filter(function(i){return i.cat===cat;}).length;
+  return lowBanner(cat)+
+  '<div class="card"><h2>'+cat+'台账</h2><div class="sub">共 '+catTotal+' 条'+cat+'记录 · 点击物品名称查看借用明细</div>'+
+  '<div class="toolbar"><input id="lf_kw" placeholder="搜索编号/名称/型号/厂家/位置…" value="'+esc(lf.kw)+'" onkeyup="lf.kw=this.value;renderPage(\''+routeKey+'\')" style="width:260px;">'+
+  '<select onchange="lf.risk=this.value;renderPage(\''+routeKey+'\')" style="width:140px;"><option value="">全部风险</option>'+['red','yellow','blue'].map(function(r){return '<option value="'+r+'"'+(lf.risk===r?' selected':'')+'>'+RISK_TXT[r]+'</option>';}).join('')+'</select>'+
+  '<div class="grow"></div><button class="btn primary big" onclick="openItemWizard(\''+cat+'\')">＋ 新增'+cat+'</button></div>'+
+  '<table><thead><tr><th>编号</th><th>名称</th><th>规格</th><th>风险</th><th>库存</th><th>实时状态</th><th>位置</th><th>有效期</th><th>操作</th></tr></thead><tbody>'+
   list.map(function(i){var low=i.stock<=i.minStock&&i.minStock>0&&i.status!=='报废';
-    return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span>'+(low?' <span class="lg-tag">缺</span>':'')+'</td><td>'+esc(i.cat)+'</td><td>'+esc(i.spec)+'</td><td>'+riskTag(i.risk)+'</td>'+
+    return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span>'+(low?' <span class="lg-tag">缺</span>':'')+'</td><td>'+esc(i.spec)+'</td><td>'+riskTag(i.risk)+'</td>'+
       '<td>'+i.stock+' '+esc(i.unit)+'</td><td>'+stTag(dispStatus(i))+'</td><td>'+esc(i.loc)+'</td><td>'+(i.expire||'-')+'</td>'+
       '<td style="white-space:nowrap;"><button class="btn mini" onclick="openEditItem(\''+i.id+'\')">编辑</button><button class="btn mini" onclick="openChangeStatus(\''+i.id+'\')">状态变更</button></td></tr>';
   }).join('')+'</tbody></table></div>';
@@ -663,7 +670,12 @@ function itemForm(pf,it){it=it||{};
 function suggestId(){return 'NEW-'+p2(db.items.length+1)+Math.floor(Math.random()*900+100);}
 function riskChanged(pf){document.getElementById(pf+'_dual').style.display=document.getElementById(pf+'_risk').value==='red'?'block':'none';}
 function readItem(pf){return{name:document.getElementById(pf+'_name').value.trim(),id:document.getElementById(pf+'_id').value.trim(),cat:document.getElementById(pf+'_cat').value,spec:document.getElementById(pf+'_spec').value.trim(),maker:document.getElementById(pf+'_maker').value.trim(),price:parseFloat(document.getElementById(pf+'_price').value)||0,stock:parseFloat(document.getElementById(pf+'_stock').value)||0,unit:document.getElementById(pf+'_unit').value.trim()||'个',minStock:parseFloat(document.getElementById(pf+'_min').value)||0,loc:document.getElementById(pf+'_loc').value.trim(),purchaseDate:document.getElementById(pf+'_pd').value,expire:document.getElementById(pf+'_exp').value.trim(),risk:document.getElementById(pf+'_risk').value,checker:document.getElementById(pf+'_checker')?document.getElementById(pf+'_checker').value.trim():''};}
-function openItemWizard(){wizEdit=null;showModal('<h3>新增物品 · 引导式填单</h3>'+itemForm('nw'),'<button class="btn primary" onclick="saveNewItem()">确认入库</button>'+can());}
+function openItemWizard(defCat){
+  wizEdit=null;
+  var dummy={cat:defCat||_ledgerCat||'仪器'};
+  showModal('<h3>新增物品 · 引导式填单</h3>'+itemForm('nw',dummy),'<button class="btn primary" onclick="saveNewItem()">确认入库</button>'+can());
+  riskChanged('nw');
+}
 function saveNewItem(){var it=readItem('nw');if(!it.name||!it.id){toast('请填写名称和编号','#e74c3c');return;}if(db.items.some(function(x){return x.id===it.id;})){toast('编号已存在','#e74c3c');return;}db.items.push({id:it.id,name:it.name,cat:it.cat,spec:it.spec,maker:it.maker,price:it.price,purchaseDate:it.purchaseDate,expire:it.expire,status:'正常',stock:it.stock,unit:it.unit,minStock:it.minStock,loc:it.loc,risk:it.risk});logAct('新增台账物品「'+it.id+' '+it.name+'」'+(it.risk==='red'?'，红色等级双人复核登记（复核人：'+it.checker+'）':''));saveDB();closeModal();renderShell();toast('物品已入台账');}
 function openEditItem(id){var it=itemBy(id);wizEdit=id;showModal('<h3>编辑物品 — '+esc(it.name)+'</h3>'+itemForm('nw',it),'<button class="btn primary" onclick="saveEditItem()">保存修改</button>'+can());riskChanged('nw');}
 function saveEditItem(){var it=readItem('nw');var i=db.items.findIndex(function(x){return x.id===wizEdit;});if(db.items.some(function(x,idx){return x.id===it.id&&idx!==i;})){toast('编号重复','#e74c3c');return;}db.items[i]=Object.assign({},db.items[i],it);logAct('编辑修改了「'+it.id+' '+it.name+'」');saveDB();closeModal();renderShell();toast('已保存并记入日志');}
