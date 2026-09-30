@@ -95,6 +95,23 @@ tr:hover td{background:#f7fafd;}
 .cat-items{display:flex;flex-direction:column;gap:5px;}
 .cat-item{background:#fff;border:1px solid #d5deea;border-radius:7px;padding:7px 10px;font-size:12.5px;color:#2c3e50;cursor:pointer;transition:all .15s;line-height:1.35;}
 .cat-item:hover{border-color:#2a78b8;background:#e8f2fb;color:#1d5a8f;font-weight:bold;}
+/* 时段占用条 */
+.occ-wrap{margin:6px 0 4px;}
+.occ-strip{display:grid;grid-template-columns:repeat(31,1fr);gap:2px;}
+.occ-cell{height:14px;border-radius:2px;background:#dff0d8;border:1px solid #b9dfaa;}
+.occ-cell.occ-busy{background:#b8bcc2;border-color:#9aa0a8;cursor:not-allowed;}
+.occ-cell.occ-use{background:#e57373;border-color:#c0392b;cursor:not-allowed;}
+.occ-cell.occ-past{background:#eceff3;border-color:#d5dbe3;}
+.occ-legend{display:flex;gap:14px;align-items:center;font-size:11.5px;color:#5a6c82;margin:7px 0 2px;flex-wrap:wrap;}
+.occ-dot{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:middle;margin-right:4px;border:1px solid;}
+.occ-dot.occ-busy{background:#b8bcc2;border-color:#9aa0a8;}
+.occ-dot.occ-use{background:#e57373;border-color:#c0392b;}
+.occ-dot.occ-past{background:#eceff3;border-color:#d5dbe3;}
+.occ-dot.occ-free{background:#dff0d8;border-color:#b9dfaa;}
+.occ-list{margin-top:5px;display:flex;flex-direction:column;gap:3px;}
+.occ-line{font-size:12.5px;color:#41546d;background:#f6f8fa;border:1px solid #e3e9f1;border-radius:6px;padding:5px 9px;border-left:4px solid #9aa0a8;}
+.occ-line.use{border-left-color:#c0392b;background:#fdf3f3;}
+.tval.tval-busy{color:#b0392b!important;background:#fdecea!important;border-color:#f5b7b1!important;}
 .m-foot{margin-top:20px;display:flex;justify-content:flex-end;gap:10px;}
 /* 签名块 */
 .sig{display:inline-block;padding:6px 12px;border-radius:6px;font-size:12.5px;margin:3px 6px 3px 0;vertical-align:middle;}
@@ -660,7 +677,7 @@ function openItemDetail(id){
           else if(r.status==='approved'&&r.date<today())st='<span class="tag green">已归还</span>';
           else if(it.status==='待修')st='<span class="tag red">维修中</span>';
           else st='<span class="tag yellow">使用中</span>';
-          return '<tr><td>'+esc(r.id)+'</td><td>'+esc(r.userName)+'</td><td>'+esc(r.project)+'</td><td>'+r.date+'<br><span class="muted">'+esc(r.slots.join('、'))+'</span></td><td>'+st+'</td></tr>';
+          return '<tr><td>'+esc(r.id)+'</td><td>'+esc(r.userName)+'</td><td>'+esc(r.project)+'</td><td>'+r.date+'<br><span class="muted">'+slotRange(r)+'</span></td><td>'+st+'</td></tr>';
         }).join('')+'</tbody></table>':'<div class="muted" style="padding:14px;text-align:center;">该仪器暂无预约记录</div>')+'</div>',
       can());
     return;
@@ -996,6 +1013,60 @@ function fixRepair(i){db.repairs[i].st='已修复';db.repairs[i].engineer=cur.na
    C2. 仪器预约与使用分析
 ===================================================== */
 var RANGE_TIMES=(function(){var a=[];for(var h=7;h<=22;h++){a.push(p2(h)+':00');if(h<22)a.push(p2(h)+':30');}return a;})();
+/* 把一条预约的 slots 统一格式化为“几点 到 几点”（兼容老数据：仅有开始时间） */
+function slotRange(r){
+  var s=(r.slots&&r.slots[0])||'';
+  if(s.indexOf('-')>=0){var p=s.split('-');return p[0]+' 到 '+p[1];}
+  if(s){
+    var hm=s.split(':'),sh=+hm[0],sm=+(hm[1]||0);
+    var mins=sh*60+sm+Math.round((r.hours||0.5)*60);
+    return s+' 到 '+p2(Math.floor(mins/60))+':'+p2(mins%60);
+  }
+  return '-';
+}
+/* 取某台仪器某天已被预约/使用中的时段（索引区间 [s,e)） */
+function devBookings(devId,date){
+  return db.res.filter(function(r){
+    return r.devId===devId&&r.date===date&&(r.status==='approved'||r.status==='using');
+  }).map(function(r){
+    var s=(r.slots&&r.slots[0])||'',sIdx=-1,eIdx=-1;
+    if(s.indexOf('-')>=0){var p=s.split('-');sIdx=RANGE_TIMES.indexOf(p[0]);eIdx=RANGE_TIMES.indexOf(p[1]);}
+    else{sIdx=RANGE_TIMES.indexOf(s);eIdx=sIdx+Math.max(1,Math.round((r.hours||0.5)/0.5));}
+    return {s:sIdx,e:eIdx,name:r.userName,status:r.status,self:r.userId===cur.id,id:r.id};
+  }).filter(function(b){return b.s>=0;});
+}
+/* 某个起始索引落在哪个已约区间内，没有则 null */
+function occAt(bookings,idx){
+  for(var i=0;i<bookings.length;i++){if(idx>=bookings[i].s&&idx<bookings[i].e)return bookings[i];}
+  return null;
+}
+/* 当前时间已经过去的时段索引（仅当天有效） */
+function pastIdxNow(){
+  var d=new Date();
+  var mins=d.getHours()*60+d.getMinutes();
+  var start=7*60;
+  return Math.floor((mins-start)/30);
+}
+/* 当日 31 格占用条 */
+function occupancyStrip(devId,date,bookings){
+  var past=date===today()?pastIdxNow():-1;
+  var cells='';
+  for(var k=0;k<RANGE_TIMES.length;k++){
+    var b=occAt(bookings,k);
+    var cls='occ-cell';var tip=RANGE_TIMES[k]+' 空闲';
+    if(k<=past){cls+=' occ-past';tip=RANGE_TIMES[k]+' 已过';}
+    if(b){
+      cls+=b.status==='using'?' occ-use':' occ-busy';
+      tip=RANGE_TIMES[k]+' '+(b.self?'我':b.name)+(b.status==='using'?' 使用中':' 已预约');
+    }
+    cells+='<div class="'+cls+'" title="'+esc(tip)+'"></div>';
+  }
+  var legend='<div class="occ-legend"><span><i class="occ-dot occ-busy"></i>已预约</span><span><i class="occ-dot occ-use"></i>使用中</span><span><i class="occ-dot occ-past"></i>已过</span><span><i class="occ-dot occ-free"></i>空闲</span><span class="muted" style="margin-left:auto;">7:00 —— 22:00（每格30分钟）</span></div>';
+  var list=bookings.length?'<div class="occ-list">'+bookings.map(function(b){
+    return '<div class="occ-line '+(b.status==='using'?'use':'')+'">'+RANGE_TIMES[b.s]+' 到 '+(b.e<RANGE_TIMES.length?RANGE_TIMES[b.e]:'22:00')+'　<b>'+esc(b.self?'我（'+b.name+'）':b.name)+'</b>'+(b.status==='using'?' <span style="color:#c0392b;">使用中</span>':' <span style="color:#7f8c8d;">已预约</span>')+'</div>';
+  }).join('')+'</div>':'<div class="muted" style="font-size:12px;padding:4px 0;">当日暂无其他预约</div>';
+  return '<div class="occ-wrap"><div class="occ-strip">'+cells+'</div>'+legend+list+'</div>';
+}
 function rPill(r){
   var m={approved:['approved','已预约'],using:['active','使用中'],done:['returned','已完成'],rejected:['rejected','已拒绝'],canceled:['returned','已取消']};
   var c=m[r.status]||['returned',r.status];return '<span class="pill '+c[0]+'">'+c[1]+'</span>';
@@ -1031,33 +1102,84 @@ function rsSearch(){
       return '<tr><td>'+esc(i.id)+'</td><td><span class="item-name" onclick="openItemDetail(\''+i.id+'\')">'+esc(i.name)+'</span><br><span class="muted">'+esc(i.spec)+'</span><br><span style="display:inline-flex;gap:4px;flex-wrap:wrap;margin-top:2px;">'+subCatTag(i.subCat)+purposeTag(i.purpose)+'</span></td><td>'+esc(i.loc)+'</td><td>'+stTag(dispStatus(i))+'</td><td><b>'+(u?u.util.toFixed(1):'0.0')+'%</b></td><td><button class="btn mini primary" onclick="pickRes(\''+i.id+'\')">预约</button></td></tr>';
     }).join('')+'</tbody></table>';
 }
-var _resDev=null,_resDate='',_resTimeIdx=14,_resEndIdx=15,_resPurpose='';
+var _resDev=null,_resDate='',_resTimeIdx=14,_resEndIdx=15,_resPurpose='',_resSelfUse=true;
+function resPastLimit(){return _resDate===today()?pastIdxNow():-1;}
+/* 区间 [s,e) 是否全部空闲（未被预约/使用、未过时） */
+function rangeFree(bookings,s,e){
+  var past=resPastLimit();
+  if(e<=s)return false;
+  for(var k=s;k<e;k++){
+    if(k<=past)return false;
+    if(occAt(bookings,k))return false;
+  }
+  return true;
+}
+/* 选开始时间后，自动找最近的合法结束时间 */
+function ensureValidEnd(bookings){
+  for(var e=_resTimeIdx+1;e<RANGE_TIMES.length;e++){
+    if(rangeFree(bookings,_resTimeIdx,e)){_resEndIdx=e;return;}
+  }
+  _resEndIdx=Math.min(_resTimeIdx+1,RANGE_TIMES.length-1);
+}
+/* 从某索引向指定方向找到下一个可选（空闲且未过）的开始时间 */
+function nextFreeStart(bookings,idx,dir){
+  var past=resPastLimit();
+  for(var n=0;n<RANGE_TIMES.length;n++){
+    idx+=dir;
+    if(idx<0)idx=RANGE_TIMES.length-1;if(idx>=RANGE_TIMES.length)idx=0;
+    if(idx>past&&!occAt(bookings,idx)&&idx<RANGE_TIMES.length-1)return idx;
+  }
+  return _resTimeIdx;
+}
 function pickRes(id){
-  _resDev=itemBy(id);_resDate=today();_resTimeIdx=14;_resEndIdx=15;
-  _resPurpose=(_resDev&&_resDev.purpose)||(db.purposes&&db.purposes[0])||'';
+  _resDev=itemBy(id);_resDate=today();_resPurpose=(_resDev&&_resDev.purpose)||(db.purposes&&db.purposes[0])||'';_resSelfUse=true;
+  var bookings=devBookings(_resDev.id,_resDate);
+  var past=resPastLimit();
+  _resTimeIdx=Math.max(14,past+1);
+  if(occAt(bookings,_resTimeIdx))_resTimeIdx=nextFreeStart(bookings,_resTimeIdx-1,1);
+  ensureValidEnd(bookings);
   renderResForm();
 }
-function setResDate(dt){_resDate=dt;renderResForm();}
+function setResDate(dt){
+  _resDate=dt;
+  var bookings=devBookings(_resDev.id,_resDate);
+  var past=resPastLimit();
+  if(_resTimeIdx<=past||occAt(bookings,_resTimeIdx)){
+    _resTimeIdx=Math.max(0,past+1);
+    if(occAt(bookings,_resTimeIdx))_resTimeIdx=nextFreeStart(bookings,_resTimeIdx-1,1);
+  }
+  ensureValidEnd(bookings);
+  renderResForm();
+}
 function setResPurpose(p){_resPurpose=p;renderResForm();}
-function timeWheelHtml(idx,upFn,dnFn){
+function setResSelf(v){_resSelfUse=v;renderResForm();}
+function timeWheelHtml(idx,upFn,busy){
   var prev=RANGE_TIMES[(idx-1+RANGE_TIMES.length)%RANGE_TIMES.length];
   var cur=RANGE_TIMES[idx];
   var next=RANGE_TIMES[(idx+1)%RANGE_TIMES.length];
   return '<div class="wheel"><button class="step" onclick="'+upFn+'(-1)">▲</button>'+
-    '<div class="wvals"><div class="wnb">'+prev+'</div><div class="tval">'+cur+'</div><div class="wnb">'+next+'</div></div>'+
+    '<div class="wvals"><div class="wnb">'+prev+'</div><div class="tval'+(busy?' tval-busy':'')+'">'+cur+'</div><div class="wnb">'+next+'</div></div>'+
     '<button class="step" onclick="'+upFn+'(1)">▼</button></div>';
 }
 function wheelTime(move){
-  var idx=_resTimeIdx+move;
-  if(idx<0)idx=RANGE_TIMES.length-1;if(idx>=RANGE_TIMES.length)idx=0;
-  _resTimeIdx=idx;
-  /* 结束时间必须晚于开始时间，自动顺延 */
-  if(_resEndIdx<=_resTimeIdx){_resEndIdx=Math.min(_resTimeIdx+1,RANGE_TIMES.length-1);}
+  var bookings=devBookings(_resDev.id,_resDate);
+  _resTimeIdx=nextFreeStart(bookings,_resTimeIdx,move);
+  ensureValidEnd(bookings);
   renderResForm();
 }
 function wheelEndTime(move){
+  var bookings=devBookings(_resDev.id,_resDate);
   var idx=_resEndIdx+move;
   if(idx<0)idx=RANGE_TIMES.length-1;if(idx>=RANGE_TIMES.length)idx=0;
+  if(idx<=_resTimeIdx)idx=_resTimeIdx+1;
+  /* 结束点落在已约区间内时，自动跳到该区间之后 */
+  for(var guard=0;guard<RANGE_TIMES.length;guard++){
+    var hit=occAt(bookings,idx-1);
+    if(idx>_resTimeIdx&&idx<=resPastLimit()){idx=resPastLimit()+1;continue;}
+    if(hit){idx=hit.e;continue;}
+    break;
+  }
+  if(idx>RANGE_TIMES.length-1)idx=RANGE_TIMES.length-1;
   _resEndIdx=idx;
   renderResForm();
 }
@@ -1074,25 +1196,49 @@ function renderResForm(){
     var c=purposeColor(p);
     return '<div class="date-chip'+(on?' on':'')+'" style="'+(on?'':'background:'+c.bg+';border-color:'+c.border+';color:'+c.fg+';font-weight:bold;')+'" onclick="setResPurpose(\''+qStr(p)+'\')">'+esc(p)+'</div>';
   }).join('')+'</div>';
+  var bookings=devBookings(it.id,_resDate);
+  var past=resPastLimit();
+  var startHit=occAt(bookings,_resTimeIdx);
+  var startPast=_resTimeIdx<=past;
+  var endHit=occAt(bookings,_resEndIdx-1);
+  var endPast=_resEndIdx-1<=past;
+  var rangeOk=rangeFree(bookings,_resTimeIdx,_resEndIdx);
+  var startNote=startPast?'<div class="occ-line" style="border-left-color:#95a5a6;">该时段已过，不能预约</div>':
+    startHit?'<div class="occ-line use">🔒 '+RANGE_TIMES[_resTimeIdx]+'　<b>'+esc(startHit.self?'我（'+startHit.name+'）':startHit.name)+'</b>'+(startHit.status==='using'?' 正在使用':' 已经预约')+'，不能选择</div>':
+    '<div style="font-size:12.5px;color:#1e8449;padding:3px 0;">✓ '+RANGE_TIMES[_resTimeIdx]+' 时段空闲</div>';
+  var endNote=endPast?'<div class="occ-line" style="border-left-color:#95a5a6;">结束时间已过，请重选</div>':
+    endHit?'<div class="occ-line use">🔒 该时段 <b>'+esc(endHit.self?'我（'+endHit.name+'）':endHit.name)+'</b>'+(endHit.status==='using'?' 正在使用':' 已经预约')+'，请往后选</div>':
+    (_resEndIdx<=_resTimeIdx?'<div class="occ-line">结束时间必须晚于开始时间</div>':'');
   var durH=(_resEndIdx-_resTimeIdx)*0.5;
-  var durTxt=durH>0?'时长 '+durH+' 小时':'';
+  var selfChips='<div style="display:flex;gap:8px;flex-wrap:wrap;">'+
+    '<div class="date-chip'+(_resSelfUse?' on':'')+'" onclick="setResSelf(true)">是，本人使用</div>'+
+    '<div class="date-chip'+(!_resSelfUse?' on':'')+'" onclick="setResSelf(false)">否，代他人预约</div></div>';
+  var canSubmit=rangeOk&&!!_resPurpose;
   document.getElementById('rs_form').innerHTML=
   '<div class="card" style="border-left:5px solid #2a78b8;"><h2>预约仪器 — '+esc(it.name)+'</h2><div class="sub">'+esc(it.id)+' · '+esc(it.spec)+' · '+esc(it.loc)+'</div>'+
   '<div class="frm"><label>选择日期</label><div style="display:flex;gap:8px;flex-wrap:wrap;">'+daysHtml+'</div>'+
+  '<label>当日时段占用情况</label>'+occupancyStrip(it.id,_resDate,bookings)+
   '<label>使用用途 <span class="req">*</span>　<span class="muted">点选即可</span></label>'+purposeChips+
-  '<label>开始时间（7:00 ~ 22:00，30 分钟一档）</label>'+timeWheelHtml(_resTimeIdx,'wheelTime')+
-  '<label>结束时间（晚于开始时间）　<b style="color:#1d5a8f;">'+durTxt+'</b></label>'+timeWheelHtml(_resEndIdx,'wheelEndTime')+
-  '</div><div class="m-foot"><button class="btn primary" onclick="submitRes()">确认</button></div></div>';
+  '<label>开始时间（7:00 ~ 22:00，30 分钟一档）</label>'+timeWheelHtml(_resTimeIdx,'wheelTime',startPast||!!startHit)+startNote+
+  '<label>结束时间（晚于开始时间）　<b style="color:#1d5a8f;">'+(rangeOk?'时长 '+durH+' 小时':'')+'</b></label>'+timeWheelHtml(_resEndIdx-0,'wheelEndTime',endPast||!!endHit||_resEndIdx<=_resTimeIdx)+endNote+
+  '<label>是否本人使用 <span class="req">*</span></label>'+selfChips+
+  '</div><div class="m-foot"><button class="btn primary" onclick="submitRes()"'+(canSubmit?'':' disabled style="opacity:.5;cursor:not-allowed;"')+'>确认</button></div></div>';
 }
 function submitRes(){
   if(!_resDev)return;
   if(!_resPurpose){toast('请选择使用用途','#e74c3c');return;}
+  var bookings=devBookings(_resDev.id,_resDate);
+  if(_resTimeIdx<=resPastLimit()){toast('开始时间已过，请重选','#e74c3c');return;}
   if(_resEndIdx<=_resTimeIdx){toast('结束时间必须晚于开始时间','#e74c3c');return;}
+  for(var k=_resTimeIdx;k<_resEndIdx;k++){
+    var hit=occAt(bookings,k);
+    if(hit){toast(RANGE_TIMES[k]+' 时段'+(hit.status==='using'?'正在使用':'已被')+' '+hit.name+' 预约，请换时段','#e74c3c');return;}
+  }
   var t=RANGE_TIMES[_resTimeIdx],endT=RANGE_TIMES[_resEndIdx];
   var hours=(_resEndIdx-_resTimeIdx)*0.5;
   var id='RQ'+today().replace(/-/g,'')+Math.floor(Math.random()*900+100);
-  db.res.unshift({id:id,devId:_resDev.id,devName:_resDev.name,userId:cur.id,userName:cur.name,project:_resPurpose,date:_resDate,slots:[t+'-'+endT],hours:hours,status:'approved',applyTime:dtStr(),signer:cur.name,signTime:dtStr(),approveSigner:'',approveTime:'',adminOpinion:'同意',adminReason:'',checkinTime:'',checkoutTime:'',actualHours:0});
-  logAct('预约仪器：'+_resDev.name+' '+_resDate+' '+t+'~'+endT+'（用途：'+_resPurpose+'，'+hours+'小时）');
+  db.res.unshift({id:id,devId:_resDev.id,devName:_resDev.name,userId:cur.id,userName:cur.name,project:_resPurpose,selfUse:_resSelfUse,date:_resDate,slots:[t+'-'+endT],hours:hours,status:'approved',applyTime:dtStr(),signer:cur.name,signTime:dtStr(),approveSigner:'',approveTime:'',adminOpinion:'同意',adminReason:'',checkinTime:'',checkoutTime:'',actualHours:0});
+  logAct('预约仪器：'+_resDev.name+' '+_resDate+' '+t+' 到 '+endT+'（用途：'+_resPurpose+'，'+hours+'小时，'+(_resSelfUse?'本人使用':'代他人预约')+'）');
   saveDB();toast('预约成功 ✓');
   _resDev=null;document.getElementById('rs_form').innerHTML='';
   renderShell();
@@ -1110,9 +1256,9 @@ function openResForm(id){
   var sec1='<div class="form-section"><h4>① 预约信息（借用人填写）</h4>'+
    '<div class="sig-row"><b>预约单号：</b>'+esc(r.id)+'</div>'+
    '<div class="sig-row"><b>预约仪器：</b>'+esc(r.devName)+'（'+esc(r.devId)+'）</div>'+
-   '<div class="sig-row"><b>日期时段：</b>'+r.date+'　'+esc(r.slots.join('、'))+'（约 '+r.hours+' 小时）</div>'+
-   '<div class="sig-row"><b>项目名称：</b>'+esc(r.project)+'　　<b>样品说明：</b>'+esc(r.samples||'-')+'</div>'+
-   '<div class="sig-row"><b>安全培训确认：</b><span class="sig sig-done">已签：'+esc(r.signer)+' @ '+esc(r.signTime)+'</span></div></div>';
+   '<div class="sig-row"><b>预约时间：</b>'+esc(r.date)+'　'+slotRange(r)+'（约 '+r.hours+' 小时）</div>'+
+   '<div class="sig-row"><b>使用用途：</b>'+esc(r.project)+'</div>'+
+   '<div class="sig-row"><b>是否本人使用：</b>'+(r.selfUse===false?'否，代他人预约':'是，本人使用')+'</div></div>';
   showModal('<h3>仪器预约表 · '+esc(r.id)+'</h3>'+sec1,'<button class="btn ghost" onclick="closeModal()">关闭</button>');
 }
 /* ---- 使用统计与图表 ---- */
@@ -1188,9 +1334,11 @@ function peakHeatmap(devId){
     if(devId&&r.devId!==devId)return;
     var d=new Date(r.date);var wd=(d.getDay()+6)%7; // 0=周一
     if(isNaN(wd)||!r.slots)return;
-    r.slots.forEach(function(s){
-      for(var si=0;si<3;si++){if(s===slotNames[si]){grid[si][wd]++;break;}}
-    });
+    /* 兼容新旧格式：从开始时间归入上午/下午/晚上 */
+    var st0=String(r.slots[0]||'').split('-')[0];
+    var sh=parseInt(st0.split(':')[0],10);
+    var si=isNaN(sh)?-1:(sh<13?0:(sh<18?1:2));
+    if(si>=0)grid[si][wd]++;
   });
   // 每次预约颜色加深一档：0=极浅，1-2=浅蓝，3-4=中蓝，5+=深蓝
   function shade(cnt){
@@ -1433,7 +1581,7 @@ function vRecords(){
   rows.map(function(x){
     if(x.t==='res'){
       var r=x.d,mine=r.userId===cur.id,od=r.status==='using'&&r.date<today();
-      return '<tr'+(mine?' style="background:#f0f7ff;"':'')+(od?' class="row-overdue"':'')+'><td>'+esc(r.id)+'</td><td><span class="tag borrowing">仪器预约</span></td><td>'+esc(r.userName)+(mine?' (我)':'')+'</td><td>'+esc(r.devName)+'</td><td>'+esc(r.project)+'</td><td>'+r.date+'<br><span class="muted">'+esc(r.slots.join('、'))+'</span></td><td>'+rPill(r)+'</td><td><button class="btn mini" onclick="openResForm(\''+r.id+'\')">查看预约表</button></td></tr>';
+      return '<tr'+(mine?' style="background:#f0f7ff;"':'')+(od?' class="row-overdue"':'')+'><td>'+esc(r.id)+'</td><td><span class="tag borrowing">仪器预约</span></td><td>'+esc(r.userName)+(mine?' (我)':'')+'</td><td>'+esc(r.devName)+'</td><td>'+esc(r.project)+'</td><td>'+r.date+'<br><span class="muted">'+slotRange(r)+'</span></td><td>'+rPill(r)+'</td><td><button class="btn mini" onclick="openResForm(\''+r.id+'\')">查看预约表</button></td></tr>';
     }
     if(x.t==='con'){
       var c=x.d,mine=c.borrowerId===cur.id;
