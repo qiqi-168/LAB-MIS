@@ -1193,8 +1193,7 @@ function renderResForm(){
   }
   var purposeChips='<div style="display:flex;gap:8px;flex-wrap:wrap;">'+(db.purposes||[]).map(function(p){
     var on=_resPurpose===p;
-    var c=purposeColor(p);
-    return '<div class="date-chip'+(on?' on':'')+'" style="'+(on?'':'background:'+c.bg+';border-color:'+c.border+';color:'+c.fg+';font-weight:bold;')+'" onclick="setResPurpose(\''+qStr(p)+'\')">'+esc(p)+'</div>';
+    return '<div class="date-chip'+(on?' on':'')+'" style="'+(on?'background:#2a78b8;border-color:#2a78b8;color:#fff;font-weight:bold;':'background:#f2f4f7;border-color:#cbd2db;color:#7a8696;font-weight:normal;')+'" onclick="setResPurpose(\''+qStr(p)+'\')">'+esc(p)+'</div>';
   }).join('')+'</div>';
   var bookings=devBookings(it.id,_resDate);
   var past=resPastLimit();
