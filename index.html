@@ -87,6 +87,13 @@ tr:hover td{background:#f7fafd;}
 .date-chip,.slot-chip{border:1.5px solid #d5deea;border-radius:7px;padding:7px 12px;font-size:12.5px;text-align:center;cursor:pointer;user-select:none;background:#fbfcfe;line-height:1.5;}
 .date-chip.on,.slot-chip.on{border-color:#2a78b8;background:#e8f2fb;color:#1d5a8f;font-weight:bold;}
 .slot-chip.full{border-color:#eecfcf;background:#fdf3f3;color:#c0392b;cursor:not-allowed;opacity:.8;}
+/* 仪器分类卡片 */
+.cat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:16px 0 4px;}
+.cat-card{background:linear-gradient(160deg,#f6f9fc 0%,#eef4fb 100%);border:1px solid #e0e8f3;border-radius:10px;padding:12px 12px 10px;}
+.cat-title{font-size:13.5px;font-weight:bold;color:#1d5a8f;margin-bottom:8px;padding-bottom:6px;border-bottom:1.5px solid #cfe0f0;}
+.cat-items{display:flex;flex-direction:column;gap:5px;}
+.cat-item{background:#fff;border:1px solid #d5deea;border-radius:7px;padding:7px 10px;font-size:12.5px;color:#2c3e50;cursor:pointer;transition:all .15s;line-height:1.35;}
+.cat-item:hover{border-color:#2a78b8;background:#e8f2fb;color:#1d5a8f;font-weight:bold;}
 .m-foot{margin-top:20px;display:flex;justify-content:flex-end;gap:10px;}
 /* 签名块 */
 .sig{display:inline-block;padding:6px 12px;border-radius:6px;font-size:12.5px;margin:3px 6px 3px 0;vertical-align:middle;}
@@ -176,6 +183,11 @@ tr:hover td{background:#f7fafd;}
   .toast{top:50px;right:8px;left:8px;padding:9px 12px;font-size:12px;border-radius:6px;text-align:center;}
   /* 日期/时段选择 chip */
   .date-chip,.slot-chip{padding:5px 7px;font-size:11.5px;}
+  /* 仪器分类卡片：移动端两列 */
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0 4px;}
+  .cat-card{padding:9px 9px 8px;border-radius:8px;}
+  .cat-title{font-size:12.5px;margin-bottom:6px;padding-bottom:5px;}
+  .cat-item{padding:6px 8px;font-size:11.5px;}
   /* 勾选行：文字不再竖排；checkbox 在左，文字内部换行 */
   .chk-line{flex-wrap:nowrap;align-items:center;gap:8px;}
   .chk-line input[type="checkbox"]{flex:0 0 auto;width:16px;height:16px;margin:0;}
@@ -853,8 +865,22 @@ function rPill(r){
 function resById(id){return db.res.filter(function(x){return x.id===id;})[0];}
 /* ---- 借用人：仪器预约 ---- */
 function vReserve(){
+  var cats=[
+    {title:'① 样品制备',items:[{id:'YQ-006',name:'PCR扩增仪'}]},
+    {title:'② 分离与纯化',items:[{id:'YQ-001',name:'高效液相色谱仪'},{id:'YQ-003',name:'气相色谱仪'}]},
+    {title:'③ 表征',items:[{id:'YQ-002',name:'电感耦合等离子质谱仪（ICP-MS）'},{id:'YQ-004',name:'气相色谱-质谱联用仪（GC-MS）'},{id:'YQ-008',name:'超微量分光光度计'},{id:'YQ-011',name:'体系稳定性光分散分析系统'},{id:'YQ-005',name:'凝胶成像系统'}]},
+    {title:'④ 生物学分析',items:[{id:'YQ-007',name:'流式细胞仪'}]},
+    {title:'⑤ 功效评价',items:[{id:'YQ-009',name:'面部皮肤图像分析仪'},{id:'YQ-010',name:'多功能皮肤测试仪'}]}
+  ];
+  var catsHtml='<div class="cat-grid">'+cats.map(function(c){
+    return '<div class="cat-card"><div class="cat-title">'+c.title+'</div>'+
+      '<div class="cat-items">'+c.items.map(function(it){
+        return '<div class="cat-item" onclick="pickRes(\''+it.id+'\')">'+esc(it.name)+'</div>';
+      }).join('')+'</div></div>';
+  }).join('')+'</div>';
   return '<div class="card"><h2>仪器预约</h2><div class="sub">搜索仪器 → 选日期与时间 → 填写项目 → 确认即可使用（7:00–22:00，30 分钟一档）</div>'+
   '<div class="toolbar"><input id="rs_kw" placeholder="输入仪器名，如：色谱 / 质谱 / 流式 / 皮肤…" style="width:340px;" onkeyup="rsSearch()"></div>'+
+  catsHtml+
   '<div id="rs_list"></div><div id="rs_form"></div></div>';
 }
 function rsSearch(){
